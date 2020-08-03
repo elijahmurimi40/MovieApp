@@ -1,6 +1,8 @@
 # MovieApp
 Movies and previews
 
+    This product uses the TMDb API but is not endorsed or certified by TMDb.
+
 ### License
 Copyright 2020 Fortie40
 
