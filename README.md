@@ -1,7 +1,15 @@
+<p align="center"><img 
+	src="demo/logo.png" 
+	alt="Logo" width="40px" height="40px" /></p>
+    
 # MovieApp
 Movies and previews
 
     This product uses the TMDb API but is not endorsed or certified by TMDb.
+    
+<img 
+	src="demo/tmdb.svg" 
+	alt="TMDb" width="300" height="300" />
 
 ### License
 Copyright 2020 Fortie40
