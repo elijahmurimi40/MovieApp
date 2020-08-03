@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fortie40.movieapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.permission.INTERNET" android:required="true" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
