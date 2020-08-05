@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MovieApp</string>
+
+    <!-- activity_main -->
+    <string name="connection_problem">Connection Problem</string>
+
+    <!-- network_state_item -->
+    <string name="error_message">Error Message</string>
 </resources>
