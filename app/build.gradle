@@ -74,4 +74,6 @@ dependencies {
     // paging library
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
 
+    implementation "androidx.activity:activity-ktx:1.1.0"
+
 }
