@@ -11,7 +11,7 @@
             android:layout_height="match_parent">
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progress_bar_popular"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/text_error_popular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/connection_problem"
@@ -33,7 +33,7 @@
                 android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView2"
+                android:id="@+id/rv_movie_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager=".layoutmanagers.MoviesGridLayoutManager"

@@ -11,3 +11,9 @@ const val FIRST_PAGE = 1
 
 // Post per page
 const val POST_PER_PAGE = 20
+
+// When movie layout
+const val MOVIE_VIEW_TYPE = 1
+
+// show loading layout
+const val NETWORK_VIEW_TYPE = 2
