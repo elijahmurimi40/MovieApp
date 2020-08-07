@@ -3,6 +3,8 @@ package com.fortie40.movieapp.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,11 @@ class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
         fun viewInflater(parent: ViewGroup, layout: Int): View {
             val layoutInflater = LayoutInflater.from(parent.context)
             return layoutInflater.inflate(layout, parent, false)
+        }
+
+        fun viewInflater2(parent: ViewGroup, layout: Int): ViewDataBinding {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            return DataBindingUtil.inflate(layoutInflater, layout, parent, false)
         }
     }
 

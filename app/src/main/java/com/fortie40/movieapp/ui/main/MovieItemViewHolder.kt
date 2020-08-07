@@ -1,21 +1,24 @@
 package com.fortie40.movieapp.ui.main
 
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
+import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.models.Movie
-import kotlinx.android.synthetic.main.movie_list_item.view.*
 
-class MovieItemViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
+class MovieItemViewHolder private constructor(private val binding: ViewDataBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
     companion object {
         fun createMovieItemViewHolder(parent: ViewGroup): MovieItemViewHolder {
-            val view = MainActivityAdapter.viewInflater(parent, R.layout.movie_list_item)
-            return MovieItemViewHolder(view)
+            val viewDataBinding = MainActivityAdapter.viewInflater2(parent, R.layout.movie_list_item)
+            return MovieItemViewHolder(viewDataBinding)
         }
     }
 
     fun bind(movie: Movie?) {
-        itemView.movie_name.text = movie?.title
+        binding.setVariable(BR.movie, movie)
+        binding.executePendingBindings()
     }
 }
