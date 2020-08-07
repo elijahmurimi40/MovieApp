@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.MOVIE_VIEW_TYPE
 import com.fortie40.movieapp.NETWORK_VIEW_TYPE
 import com.fortie40.movieapp.helperclasses.NetworkState
@@ -39,6 +40,10 @@ class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
         if (getItemViewType(position) == MOVIE_VIEW_TYPE) {
             (holder as MovieItemViewHolder).bind(getItem(position))
         } else {
+            val layoutParams = holder.itemView.layoutParams as
+                    StaggeredGridLayoutManager.LayoutParams
+            layoutParams.isFullSpan = true
+            holder.itemView.layoutParams = layoutParams
             (holder as NetworkStateItemViewHolder).bind(networkState)
         }
     }
