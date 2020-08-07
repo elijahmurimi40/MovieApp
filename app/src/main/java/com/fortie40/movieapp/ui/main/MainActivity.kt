@@ -21,20 +21,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val adapter = MainActivityAdapter()
-        rv_movie_list.adapter = adapter
+        activityMainBinding.apply {
+            this.lifecycleOwner = this@MainActivity
+            this.viewModel = this@MainActivity.viewModel
+        }
 
-        viewModel.moviePagedList.observe(this, Observer {
-            adapter.submitList(it)
-        })
-
-        viewModel.networkState.observe(this, Observer {
-            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
-            text_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
-
-            if (!viewModel.listIsEmpty()) {
-                adapter.setNetWorkState(it)
-            }
-        })
+//        viewModel.networkState.observe(this, Observer {
+//            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+//            text_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
+//
+//            if (!viewModel.listIsEmpty()) {
+//                adapter.setNetWorkState(it)
+//            }
+//        })
     }
 }

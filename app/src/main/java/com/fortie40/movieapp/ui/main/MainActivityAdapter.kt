@@ -64,10 +64,10 @@ class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
         return networkState != null && networkState != NetworkState.LOADED
     }
 
-    fun setNetWorkState(newNetWorkState: NetworkState) {
+    fun setNetWorkState(newNetworkState: NetworkState) {
         val previousState = this.networkState
         val hadExtraRow = hasExtraRow()
-        this.networkState = newNetWorkState
+        this.networkState = newNetworkState
         val hasExtraRow = hasExtraRow()
 
         if (hadExtraRow != hasExtraRow) {
@@ -76,7 +76,7 @@ class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
             } else {                                    // hasExtraRow is true and hadExtraRow false
                 notifyItemInserted(super.getItemCount())// add the progressbar at the end
             }
-        } else if (hasExtraRow && previousState != newNetWorkState) { // hasExtraRow is true and hadExtra is true
+        } else if (hasExtraRow && previousState != newNetworkState) { // hasExtraRow is true and hadExtra is true
             notifyItemChanged(itemCount - 1)
         }
     }
