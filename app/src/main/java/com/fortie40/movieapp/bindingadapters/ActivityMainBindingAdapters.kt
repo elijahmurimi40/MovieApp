@@ -4,7 +4,6 @@ import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.layoutmanagers.MoviesStaggeredGridLayoutManager
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.ui.main.MainActivityAdapter
