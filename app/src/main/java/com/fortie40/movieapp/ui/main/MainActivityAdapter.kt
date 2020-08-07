@@ -8,25 +8,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.MOVIE_VIEW_TYPE
 import com.fortie40.movieapp.NETWORK_VIEW_TYPE
-import com.fortie40.movieapp.R
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.models.Movie
-import kotlinx.android.synthetic.main.movie_list_item.view.*
-import kotlinx.android.synthetic.main.network_state_item.view.*
 
 class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
+    companion object {
+        fun viewInflater(parent: ViewGroup, layout: Int): View {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            return layoutInflater.inflate(layout, parent, false)
+        }
+    }
+
     private var networkState: NetworkState? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view: View
-
-        return if (viewType == MOVIE_VIEW_TYPE) {
-            view = layoutInflater.inflate(R.layout.movie_list_item, parent, false)
-            MovieItemViewHolder(view)
-        } else {
-            view = layoutInflater.inflate(R.layout.network_state_item, parent, false)
-            NetWorkStateItemViewHolder(view)
+        return when (viewType) {
+            MOVIE_VIEW_TYPE -> MovieItemViewHolder.createMovieItemViewHolder(parent)
+            else -> NetworkStateItemViewHolder.createNetworkStateItemViewHolder(parent)
         }
     }
 
@@ -34,7 +32,7 @@ class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
         if (getItemViewType(position) == MOVIE_VIEW_TYPE) {
             (holder as MovieItemViewHolder).bind(getItem(position))
         } else {
-            (holder as NetWorkStateItemViewHolder).bind(networkState)
+            (holder as NetworkStateItemViewHolder).bind(networkState)
         }
     }
 
@@ -78,32 +76,6 @@ class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
 
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
-        }
-    }
-
-    class MovieItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(movie: Movie?) {
-            itemView.movie_name.text = movie?.title
-        }
-    }
-
-    class NetWorkStateItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        fun bind(networkState: NetworkState?) {
-            if (networkState != null && networkState == NetworkState.LOADING) {
-                itemView.progress_bar_item.visibility = View.VISIBLE
-            } else {
-                itemView.progress_bar_item.visibility = View.GONE
-            }
-
-            if (networkState != null && networkState == NetworkState.ERROR) {
-                itemView.error_msg_item.visibility = View.VISIBLE
-                itemView.error_msg_item.text = "Error"
-            } else if (networkState != null && networkState == NetworkState.END_OF_LIST) {
-                itemView.error_msg_item.visibility = View.VISIBLE
-                itemView.error_msg_item.text = "End of List"
-            } else {
-                itemView.error_msg_item.visibility = View.GONE
-            }
         }
     }
 }
