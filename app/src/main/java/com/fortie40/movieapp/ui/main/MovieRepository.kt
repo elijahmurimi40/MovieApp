@@ -13,7 +13,9 @@ class MovieRepository {
     private lateinit var moviesDataSourceFactory: MovieDataSourceFactory
 
     fun fetchLiveMoviePagedList(): LiveData<PagedList<Movie>> {
-        moviesDataSourceFactory = MovieDataSourceFactory()
+        if (!this::moviesDataSourceFactory.isInitialized)
+            moviesDataSourceFactory = MovieDataSourceFactory()
+
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(POST_PER_PAGE)
@@ -24,6 +26,9 @@ class MovieRepository {
     }
 
     fun getNetworkState(): LiveData<NetworkState> {
+        if (!this::moviesDataSourceFactory.isInitialized)
+            moviesDataSourceFactory = MovieDataSourceFactory()
+
         return Transformations.switchMap<MovieDataSource, NetworkState>(
             moviesDataSourceFactory.moviesLiveDataSource, MovieDataSource::networkState
         )

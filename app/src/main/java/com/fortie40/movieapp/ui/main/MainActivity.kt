@@ -1,14 +1,12 @@
 package com.fortie40.movieapp.ui.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.databinding.ActivityMainBinding
-import com.fortie40.movieapp.helperclasses.NetworkState
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,13 +24,7 @@ class MainActivity : AppCompatActivity() {
             this.viewModel = this@MainActivity.viewModel
         }
 
-        viewModel.moviePagedList.observe(this, Observer {
-            //
-        })
         viewModel.networkState.observe(this, Observer {
-            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
-            text_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
-
             if (!viewModel.listIsEmpty()) {
                 (rv_movie_list.adapter as MainActivityAdapter).setNetWorkState(it)
             }
