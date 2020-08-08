@@ -12,7 +12,7 @@ class MovieItemViewHolder private constructor(private val binding: ViewDataBindi
 
     companion object {
         fun createMovieItemViewHolder(parent: ViewGroup): MovieItemViewHolder {
-            val viewDataBinding = MainActivityAdapter.viewInflater2(parent, R.layout.movie_list_item)
+            val viewDataBinding = MainActivityAdapter.viewInflater(parent, R.layout.movie_list_item)
             return MovieItemViewHolder(viewDataBinding)
         }
     }

@@ -74,6 +74,7 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
                                 _networkState.postValue(NetworkState.END_OF_LIST)
                             }
                         }
+                        response.body() == null -> _networkState.postValue(NetworkState.END_OF_LIST)
                         response.code() == 401 -> _networkState.postValue(NetworkState.ERROR)
                         else -> _networkState.postValue(NetworkState.ERROR)
                     }

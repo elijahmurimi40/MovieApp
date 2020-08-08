@@ -1,7 +1,6 @@
 package com.fortie40.movieapp.ui.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -16,12 +15,7 @@ import com.fortie40.movieapp.models.Movie
 
 class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
     companion object {
-        fun viewInflater(parent: ViewGroup, layout: Int): View {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            return layoutInflater.inflate(layout, parent, false)
-        }
-
-        fun viewInflater2(parent: ViewGroup, layout: Int): ViewDataBinding {
+        fun viewInflater(parent: ViewGroup, layout: Int): ViewDataBinding {
             val layoutInflater = LayoutInflater.from(parent.context)
             return DataBindingUtil.inflate(layoutInflater, layout, parent, false)
         }

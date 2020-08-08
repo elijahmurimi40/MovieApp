@@ -12,7 +12,7 @@ class NetworkStateItemViewHolder private constructor(private val binding: ViewDa
 
     companion object {
         fun createNetworkStateItemViewHolder(parent: ViewGroup): NetworkStateItemViewHolder {
-            val viewDataBinding = MainActivityAdapter.viewInflater2(parent, R.layout.network_state_item)
+            val viewDataBinding = MainActivityAdapter.viewInflater(parent, R.layout.network_state_item)
             return NetworkStateItemViewHolder(viewDataBinding)
         }
     }
