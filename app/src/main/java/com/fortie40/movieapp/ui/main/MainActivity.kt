@@ -26,13 +26,16 @@ class MainActivity : AppCompatActivity() {
             this.viewModel = this@MainActivity.viewModel
         }
 
-//        viewModel.networkState.observe(this, Observer {
-//            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
-//            text_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
-//
-//            if (!viewModel.listIsEmpty()) {
-//                adapter.setNetWorkState(it)
-//            }
-//        })
+        viewModel.moviePagedList.observe(this, Observer {
+            //
+        })
+        viewModel.networkState.observe(this, Observer {
+            progress_bar_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            text_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
+
+            if (!viewModel.listIsEmpty()) {
+                (rv_movie_list.adapter as MainActivityAdapter).setNetWorkState(it)
+            }
+        })
     }
 }
