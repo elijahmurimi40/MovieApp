@@ -2,7 +2,6 @@ package com.fortie40.movieapp.bindingadapters
 
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +11,8 @@ import com.fortie40.movieapp.layoutmanagers.MoviesStaggeredGridLayoutManager
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.ui.main.MainActivityAdapter
 
+private lateinit var adapter: MainActivityAdapter
+
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
     val layoutManager = MoviesStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
@@ -20,27 +21,39 @@ fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
 
 @BindingAdapter("setAdapter")
 fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
-    val adapter = MainActivityAdapter()
+    if (!::adapter.isInitialized)
+        adapter = MainActivityAdapter()
+
     rv.adapter = adapter
     data.let {
         adapter.submitList(it)
     }
 }
 
-@BindingAdapter(value = ["listIsEmptyP", "setProgressBarPopularVisibility"], requireAll = true)
-fun setProgressBarPopularVisibility(pb: ProgressBar, listIsEmptyP: Boolean, networkState: NetworkState?) {
-    if (listIsEmptyP && networkState == NetworkState.LOADING)
-        pb.visibility = View.VISIBLE
-    else {
-        pb.visibility = View.GONE
-    }
-}
+@BindingAdapter(value = ["listIsEmpty", "setVisibility"], requireAll = true)
+fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?) {
+    if (!::adapter.isInitialized)
+        adapter = MainActivityAdapter()
 
-@BindingAdapter(value = ["listIsEmptyT", "setTextErrorPopular"], requireAll = true)
-fun setTextErrorPopular(tv: TextView, listIsEmptyT: Boolean, networkState: NetworkState?) {
-    if (listIsEmptyT && networkState == NetworkState.ERROR)
-        tv.visibility = View.VISIBLE
-    else {
-        tv.visibility = View.GONE
+    networkState.let {
+        when (view) {
+            is ProgressBar -> {
+                if (listIsEmpty && it == NetworkState.LOADING)
+                    view.visibility = View.VISIBLE
+                else {
+                    view.visibility = View.GONE
+                }
+            }
+            else -> {
+                if (listIsEmpty && it == NetworkState.ERROR)
+                    view.visibility = View.VISIBLE
+                else {
+                    view.visibility = View.GONE
+                }
+            }
+        }
+
+        if (!listIsEmpty)
+            adapter.setNetWorkState(it!!)
     }
 }

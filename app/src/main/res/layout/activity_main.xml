@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.fortie40.movieapp.ui.main.MainActivityViewModel" />
@@ -27,8 +26,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:listIsEmptyP="@{viewModel.listIsEmpty()}"
-                app:setProgressBarPopularVisibility="@{viewModel.networkState}" />
+                app:listIsEmpty="@{viewModel.listIsEmpty()}"
+                app:setVisibility="@{viewModel.networkState}" />
 
             <TextView
                 android:id="@+id/text_error_popular"
@@ -39,8 +38,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:listIsEmptyT="@{viewModel.listIsEmpty()}"
-                app:setTextErrorPopular="@{viewModel.networkState}" />
+                app:listIsEmpty="@{viewModel.listIsEmpty()}"
+                app:setVisibility="@{viewModel.networkState}" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_movie_list"
