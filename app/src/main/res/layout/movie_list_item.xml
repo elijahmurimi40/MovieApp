@@ -11,20 +11,101 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/movie_name"
-            android:layout_width="wrap_content"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/darker_gray"
-            android:text="@{movie.title}"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/app_name" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/cv_movie_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:text="@{movie.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/app_name" />
+
+                <TextView
+                    android:id="@+id/cv_release_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@{movie.releaseDate}"
+                    app:layout_constraintEnd_toEndOf="@+id/cv_movie_title"
+                    app:layout_constraintStart_toStartOf="@+id/cv_movie_title"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_movie_title" />
+
+                <View
+                    android:id="@+id/cv_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="@+id/cv_release_date"
+                    app:layout_constraintStart_toStartOf="@+id/cv_release_date"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_release_date" />
+
+                <RatingBar
+                    android:id="@+id/cv_rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="1"
+                    android:rating="1"
+                    app:layout_constraintBottom_toBottomOf="@+id/cv_vote_average"
+                    app:layout_constraintStart_toStartOf="@+id/cv_divider"
+                    app:layout_constraintTop_toTopOf="@+id/cv_vote_average" />
+
+                <TextView
+                    android:id="@+id/cv_vote_average"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@{@string/vote_average(movie.voteAverage)}"
+                    app:layout_constraintEnd_toEndOf="@+id/cv_divider"
+                    app:layout_constraintStart_toEndOf="@+id/cv_rating_bar"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_divider" />
+
+                <TextView
+                    android:id="@+id/cv_vote_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="@{Integer.toString(movie.voteCount)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_vote_average" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
