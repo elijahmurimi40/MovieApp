@@ -6,6 +6,7 @@
 
     <!-- movie_list_item -->
     <string name="vote_average">%1$s/ 10</string>
+    <string name="movie_image">Movie Image</string>
 
     <!-- network_state_item -->
     <string name="error_message">Error Message</string>

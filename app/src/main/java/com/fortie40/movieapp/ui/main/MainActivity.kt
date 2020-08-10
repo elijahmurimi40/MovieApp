@@ -21,5 +21,8 @@ class MainActivity : AppCompatActivity() {
             this.lifecycleOwner = this@MainActivity
             this.viewModel = this@MainActivity.viewModel
         }
+
+        // Picasso.get().isLoggingEnabled = true
+        // Picasso.get().setIndicatorsEnabled(true)
     }
 }

@@ -6,6 +6,9 @@ const val API_KEY = "45955df5a808804d70bf784d00333ec9"
 // Base URL for the TMDb API
 const val BASE_URL = "https://api.themoviedb.org/3/"
 
+// Base URL for TMDb posters
+const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
+
 // First page for movies
 const val FIRST_PAGE = 1
 
