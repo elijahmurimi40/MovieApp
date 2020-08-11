@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="constants"
+            type="com.fortie40.movieapp.ConstantsKt" />
+        <variable
             name="viewModel"
             type="com.fortie40.movieapp.ui.main.MainActivityViewModel" />
     </data>
@@ -51,7 +54,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
-                app:setLayoutManager="@{2}"
+                app:setLayoutManager="@{constants.NUMBER_OF_COLUMNS}"
                 app:setAdapter="@{viewModel.moviePagedList}"
                 tools:listitem="@layout/movie_list_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>

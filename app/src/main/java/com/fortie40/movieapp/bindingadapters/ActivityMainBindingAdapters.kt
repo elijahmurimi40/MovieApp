@@ -16,6 +16,7 @@ private lateinit var adapter: MainActivityAdapter
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
     val layoutManager = MoviesStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
+    layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
     rv.layoutManager = layoutManager
 }
 
@@ -24,6 +25,7 @@ fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
     if (!::adapter.isInitialized)
         adapter = MainActivityAdapter()
 
+    // rv.addItemDecoration(ItemDecorationMovieColumn(rv.context))
     rv.adapter = adapter
     data.let {
         adapter.submitList(it)

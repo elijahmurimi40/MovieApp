@@ -20,3 +20,6 @@ const val MOVIE_VIEW_TYPE = 1
 
 // show loading layout
 const val NETWORK_VIEW_TYPE = 2
+
+// Integer Value that number of column in RecyclerView
+const val NUMBER_OF_COLUMNS = 2
