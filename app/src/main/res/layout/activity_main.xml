@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.MainActivity">
 
     <data>
+
         <variable
             name="constants"
             type="com.fortie40.movieapp.ConstantsKt" />
+
         <variable
             name="viewModel"
             type="com.fortie40.movieapp.ui.main.MainActivityViewModel" />
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <ProgressBar
-                android:id="@+id/progress_bar_popular"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:listIsEmpty="@{viewModel.listIsEmpty()}"
-                app:setVisibility="@{viewModel.networkState}" />
-
-            <TextView
-                android:id="@+id/text_error_popular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/connection_problem"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:listIsEmpty="@{viewModel.listIsEmpty()}"
-                app:setVisibility="@{viewModel.networkState}" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_movie_list"
+            <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                app:setLayoutManager="@{constants.NUMBER_OF_COLUMNS}"
-                app:setAdapter="@{viewModel.moviePagedList}"
-                tools:listitem="@layout/movie_list_item" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/app_name"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_popular"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:listIsEmpty="@{viewModel.listIsEmpty()}"
+                    app:setVisibility="@{viewModel.networkState}" />
+
+                <TextView
+                    android:id="@+id/text_error_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connection_problem"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:listIsEmpty="@{viewModel.listIsEmpty()}"
+                    app:setVisibility="@{viewModel.networkState}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_movie_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:setAdapter="@{viewModel.moviePagedList}"
+                    app:setLayoutManager="@{constants.NUMBER_OF_COLUMNS}"
+                    tools:listitem="@layout/movie_list_item" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
