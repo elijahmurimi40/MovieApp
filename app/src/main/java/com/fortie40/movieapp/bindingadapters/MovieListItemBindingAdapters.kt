@@ -3,6 +3,7 @@ package com.fortie40.movieapp.bindingadapters
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.core.view.doOnLayout
 import androidx.databinding.BindingAdapter
 import com.fortie40.movieapp.POSTER_BASE_URL
 import com.fortie40.movieapp.R
@@ -14,8 +15,6 @@ import com.squareup.picasso.Target
 fun setImage(iv: ImageView, poster_path: String?) {
     val target = object : Target {
         override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-            val imageViewWidth = iv.width
-            println(imageViewWidth)
             iv.scaleType = ImageView.ScaleType.CENTER
             iv.setImageResource(R.drawable.place_holder)
         }
@@ -26,7 +25,17 @@ fun setImage(iv: ImageView, poster_path: String?) {
         }
 
         override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-            //iv.scaleType = ImageView.ScaleType.FIT_XY
+            iv.doOnLayout {
+                val imageViewWidth = it.width
+                if (bitmap != null) {
+                    val imageWidth = bitmap.width
+                    val imageHeight = bitmap.height
+                    val imageViewHeight = (imageHeight * imageViewWidth) / imageWidth
+                    iv.requestLayout()
+                    iv.layoutParams.height = imageViewHeight
+                }
+            }
+            iv.scaleType = ImageView.ScaleType.FIT_XY
             iv.setImageBitmap(bitmap)
         }
     }
