@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
+import com.fortie40.movieapp.layoutmanagers.ItemDecorationMovieColumn
 import com.fortie40.movieapp.layoutmanagers.MoviesStaggeredGridLayoutManager
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.ui.main.MainActivityAdapter
@@ -17,6 +18,8 @@ private lateinit var adapter: MainActivityAdapter
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
     val layoutManager = MoviesStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+    rv.invalidateItemDecorations()
+    rv.addItemDecoration(ItemDecorationMovieColumn(rv.context))
     rv.layoutManager = layoutManager
 }
 
@@ -25,7 +28,6 @@ fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
     if (!::adapter.isInitialized)
         adapter = MainActivityAdapter()
 
-    // rv.addItemDecoration(ItemDecorationMovieColumn(rv.context))
     rv.adapter = adapter
     data.let {
         adapter.submitList(it)
