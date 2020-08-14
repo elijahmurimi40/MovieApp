@@ -17,6 +17,7 @@ class ItemDecorationMovieColumn(private val context: Context): RecyclerView.Item
             view.layoutParams as StaggeredGridLayoutManager.LayoutParams
         val spanIndex = lp.spanIndex
 
+        val densityPixels6 = context.resources.getDimensionPixelOffset(R.dimen.densityPixels6)
         val densityPixels12 = context.resources.getDimensionPixelOffset(R.dimen.densityPixels12)
         val densityPixels16 = context.resources.getDimensionPixelOffset(R.dimen.densityPixels16)
 
@@ -28,9 +29,12 @@ class ItemDecorationMovieColumn(private val context: Context): RecyclerView.Item
         when (spanIndex) {
             0 -> {
                 outRect.left = densityPixels16
-                outRect.right = densityPixels12
+                outRect.right = densityPixels6
             }
-            NUMBER_OF_COLUMNS - 1 -> outRect.right = densityPixels16
+            NUMBER_OF_COLUMNS - 1 -> {
+                outRect.right = densityPixels16
+                outRect.left = densityPixels6
+            }
         }
     }
 }

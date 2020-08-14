@@ -20,6 +20,14 @@ fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
     rv.invalidateItemDecorations()
     rv.addItemDecoration(ItemDecorationMovieColumn(rv.context))
+    rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                rv.invalidateItemDecorations()
+            }
+        }
+    })
     rv.layoutManager = layoutManager
 }
 
