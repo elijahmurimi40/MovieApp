@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MovieApp</string>
 
-    <!-- activity_main -->
+    <!-- activity_list -->
     <string name="connection_problem">Connection Problem</string>
 
     <!-- movie_list_item -->

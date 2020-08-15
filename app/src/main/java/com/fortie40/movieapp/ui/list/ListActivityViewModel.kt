@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.ui.main
+package com.fortie40.movieapp.ui.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.paging.PagedList
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.models.Movie
 
-class MainActivityViewModel: ViewModel() {
+class ListActivityViewModel: ViewModel() {
     private val repository: MovieRepository = MovieRepository()
 
     val moviePagedList: LiveData<PagedList<Movie>> by lazy {

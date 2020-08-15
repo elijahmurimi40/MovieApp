@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.list.ListActivity">
 
     <data>
 
@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="com.fortie40.movieapp.ui.main.MainActivityViewModel" />
+            type="com.fortie40.movieapp.ui.list.ListActivityViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

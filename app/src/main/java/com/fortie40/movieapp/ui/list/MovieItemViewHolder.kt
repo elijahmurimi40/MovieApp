@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.ui.main
+package com.fortie40.movieapp.ui.list
 
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
@@ -12,7 +12,7 @@ class MovieItemViewHolder private constructor(private val binding: ViewDataBindi
 
     companion object {
         fun createMovieItemViewHolder(parent: ViewGroup): MovieItemViewHolder {
-            val viewDataBinding = MainActivityAdapter.viewInflater(parent, R.layout.movie_list_item)
+            val viewDataBinding = ListActivityAdapter.viewInflater(parent, R.layout.movie_list_item)
             return MovieItemViewHolder(viewDataBinding)
         }
     }

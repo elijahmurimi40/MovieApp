@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.ui.main
+package com.fortie40.movieapp.ui.list
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -6,22 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import com.fortie40.movieapp.R
-import com.fortie40.movieapp.databinding.ActivityMainBinding
+import com.fortie40.movieapp.databinding.ActivityListBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var activityMainBinding: ActivityMainBinding
+class ListActivity : AppCompatActivity() {
+    private lateinit var activityListBinding: ActivityListBinding
 
-    private val viewModel by viewModels<MainActivityViewModel>()
+    private val viewModel by viewModels<ListActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
-        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        activityListBinding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
-        activityMainBinding.apply {
-            this.lifecycleOwner = this@MainActivity
-            this.viewModel = this@MainActivity.viewModel
+        activityListBinding.apply {
+            this.lifecycleOwner = this@ListActivity
+            this.viewModel = this@ListActivity.viewModel
         }
 
         // Picasso.get().isLoggingEnabled = true

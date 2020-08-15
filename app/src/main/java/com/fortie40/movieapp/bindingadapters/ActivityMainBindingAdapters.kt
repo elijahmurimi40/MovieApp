@@ -10,9 +10,9 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.layoutmanagers.ItemDecorationMovieColumn
 import com.fortie40.movieapp.layoutmanagers.MoviesStaggeredGridLayoutManager
 import com.fortie40.movieapp.models.Movie
-import com.fortie40.movieapp.ui.main.MainActivityAdapter
+import com.fortie40.movieapp.ui.list.ListActivityAdapter
 
-private lateinit var adapter: MainActivityAdapter
+private lateinit var adapter: ListActivityAdapter
 
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
@@ -34,7 +34,7 @@ fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
 @BindingAdapter("setAdapter")
 fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
     if (!::adapter.isInitialized)
-        adapter = MainActivityAdapter()
+        adapter = ListActivityAdapter()
 
     rv.adapter = adapter
     data.let {
@@ -53,7 +53,7 @@ fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
 @BindingAdapter(value = ["listIsEmpty", "setVisibility"], requireAll = true)
 fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?) {
     if (!::adapter.isInitialized)
-        adapter = MainActivityAdapter()
+        adapter = ListActivityAdapter()
 
     networkState.let {
         when (view) {

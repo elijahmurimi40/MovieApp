@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.ui.main
+package com.fortie40.movieapp.ui.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.fortie40.movieapp.NETWORK_VIEW_TYPE
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.models.Movie
 
-class MainActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
+class ListActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
     companion object {
         fun viewInflater(parent: ViewGroup, layout: Int): ViewDataBinding {
             val layoutInflater = LayoutInflater.from(parent.context)
