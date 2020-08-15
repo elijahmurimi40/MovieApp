@@ -40,6 +40,14 @@ fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
     data.let {
         adapter.submitList(it)
     }
+
+    rv.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+        override fun onViewDetachedFromWindow(v: View?) {
+            rv.adapter = null
+        }
+
+        override fun onViewAttachedToWindow(v: View?) = Unit
+    })
 }
 
 @BindingAdapter(value = ["listIsEmpty", "setVisibility"], requireAll = true)
