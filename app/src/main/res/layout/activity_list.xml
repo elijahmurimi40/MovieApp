@@ -26,7 +26,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="@string/app_name"
+                app:title="@{viewModel.title}"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
         </com.google.android.material.appbar.AppBarLayout>
 

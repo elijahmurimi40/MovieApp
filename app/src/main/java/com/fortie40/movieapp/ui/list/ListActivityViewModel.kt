@@ -7,6 +7,7 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.models.Movie
 
 class ListActivityViewModel: ViewModel() {
+    var title = ""
     private val repository: MovieRepository = MovieRepository()
 
     val moviePagedList: LiveData<PagedList<Movie>> by lazy {
@@ -20,5 +21,4 @@ class ListActivityViewModel: ViewModel() {
     fun listIsEmpty(): Boolean {
         return moviePagedList.value?.isEmpty() ?: true
     }
-
 }

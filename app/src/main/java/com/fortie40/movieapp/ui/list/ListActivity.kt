@@ -19,6 +19,7 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityListBinding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
+        viewModel.title = "Popular"
         activityListBinding.apply {
             this.lifecycleOwner = this@ListActivity
             this.viewModel = this@ListActivity.viewModel
