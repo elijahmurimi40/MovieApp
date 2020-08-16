@@ -22,7 +22,7 @@ class ListActivity : AppCompatActivity() {
         viewModel.title = "Popular"
         activityListBinding.apply {
             this.lifecycleOwner = this@ListActivity
-            this.viewModel = this@ListActivity.viewModel
+            this.recyclerView.viewModel = this@ListActivity.viewModel
         }
 
         // Picasso.get().isLoggingEnabled = true

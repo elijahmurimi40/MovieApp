@@ -19,7 +19,7 @@ fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
     val layoutManager = MoviesStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
     rv.invalidateItemDecorations()
-    rv.addItemDecoration(ItemDecorationMovieColumn(rv.context))
+    rv.addItemDecoration(ItemDecorationMovieColumn(rv.context, spanCount))
     rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)

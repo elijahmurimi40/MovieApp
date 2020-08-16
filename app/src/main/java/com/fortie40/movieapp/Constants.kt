@@ -23,3 +23,6 @@ const val NETWORK_VIEW_TYPE = 2
 
 // Integer Value that number of column in RecyclerView
 const val NUMBER_OF_COLUMNS = 2
+
+// Integer Value that number of column in RecyclerView
+const val NUMBER_OF_COLUMNS_LAND = 3

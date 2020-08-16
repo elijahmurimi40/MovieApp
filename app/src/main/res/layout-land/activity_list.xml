@@ -16,7 +16,7 @@
 
         <include android:id="@+id/recycler_view"
             layout="@layout/recycler_view"
-            bind:setSpanCount="@{constants.NUMBER_OF_COLUMNS}"/>
+            bind:setSpanCount="@{constants.NUMBER_OF_COLUMNS_LAND}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
