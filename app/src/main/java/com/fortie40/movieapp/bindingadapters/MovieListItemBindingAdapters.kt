@@ -3,7 +3,7 @@ package com.fortie40.movieapp.bindingadapters
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.core.view.doOnLayout
+import androidx.core.view.doOnPreDraw
 import androidx.databinding.BindingAdapter
 import com.fortie40.movieapp.POSTER_BASE_URL
 import com.fortie40.movieapp.R
@@ -25,7 +25,7 @@ fun setImage(iv: ImageView, poster_path: String?) {
         }
 
         override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-            iv.doOnLayout {
+            iv.doOnPreDraw {
                 val imageViewWidth = it.width
                 if (bitmap != null) {
                     val imageWidth = bitmap.width
