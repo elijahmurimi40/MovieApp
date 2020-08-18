@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.ui.list
+package com.fortie40.movieapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.RetrofitCallback.enqueueCallBack
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.models.MovieResponse
-import com.fortie40.movieapp.retrofitservices.IPopularMovies
+import com.fortie40.movieapp.retrofitservices.ITMDbMovies
 import com.fortie40.movieapp.retrofitservices.RetrofitBuilder
 import retrofit2.Response
 
@@ -28,7 +28,7 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
             _networkState.postValue(NetworkState.LOADED)
         }
 
-        RetrofitBuilder.buildService(IPopularMovies::class.java)
+        RetrofitBuilder.buildService(ITMDbMovies::class.java)
             .getPopularMovies(page)
             .enqueueCallBack(_networkState, ::success)
     }
@@ -46,7 +46,7 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
             }
         }
 
-        RetrofitBuilder.buildService(IPopularMovies::class.java)
+        RetrofitBuilder.buildService(ITMDbMovies::class.java)
             .getPopularMovies(params.key)
             .enqueueCallBack(_networkState, ::success, true)
     }
@@ -58,5 +58,19 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
          * the recycler view will hold the previous data
          * but will implement it anyway
          */
+
+        /**
+        fun success(response: Response<MovieResponse>) {
+            val key = if (params.key > 1) params.key - 1 else 0
+            if (response.body() != null) {
+                callback.onResult(response.body()!!.movieList, key)
+                _networkState.postValue(NetworkState.LOADED)
+            }
+        }
+
+        RetrofitBuilder.buildService(ITMDbMovies::class.java)
+            .getPopularMovies(params.key)
+            .enqueueCallBack(_networkState, ::success)
+        */
     }
 }

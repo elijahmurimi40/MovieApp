@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.ui.list
+package com.fortie40.movieapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
