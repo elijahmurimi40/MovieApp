@@ -9,7 +9,7 @@ import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.MovieRepository
 import com.fortie40.movieapp.data.TMDbMovieViewModelFactory
 import com.fortie40.movieapp.databinding.ActivityListBinding
-import com.fortie40.movieapp.helperclasses.RetrofitCallback
+import com.fortie40.movieapp.retrofitservices.RetrofitCallback
 
 class ListActivity : AppCompatActivity() {
     private lateinit var activityListBinding: ActivityListBinding

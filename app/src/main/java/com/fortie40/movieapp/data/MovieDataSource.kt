@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.fortie40.movieapp.FIRST_PAGE
 import com.fortie40.movieapp.helperclasses.NetworkState
-import com.fortie40.movieapp.helperclasses.RetrofitCallback.enqueueCallBack
+import com.fortie40.movieapp.retrofitservices.RetrofitCallback.enqueueCallBack
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.models.MovieResponse
 import retrofit2.Call
