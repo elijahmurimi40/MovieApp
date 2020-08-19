@@ -8,11 +8,12 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.RetrofitCallback.enqueueCallBack
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.models.MovieResponse
-import com.fortie40.movieapp.retrofitservices.ITMDbMovies
-import com.fortie40.movieapp.retrofitservices.RetrofitBuilder
+import retrofit2.Call
 import retrofit2.Response
 
-class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
+class MovieDataSource(private val movie: (Int) -> Call<MovieResponse>)
+    : PageKeyedDataSource<Int, Movie>() {
+
     private val page = FIRST_PAGE
 
     private val _networkState = MutableLiveData<NetworkState>()
@@ -28,9 +29,7 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
             _networkState.postValue(NetworkState.LOADED)
         }
 
-        RetrofitBuilder.buildService(ITMDbMovies::class.java)
-            .getPopularMovies(page)
-            .enqueueCallBack(_networkState, ::success)
+        movie.invoke(page).enqueueCallBack(_networkState, ::success)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
@@ -46,9 +45,7 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
             }
         }
 
-        RetrofitBuilder.buildService(ITMDbMovies::class.java)
-            .getPopularMovies(params.key)
-            .enqueueCallBack(_networkState, ::success, true)
+        movie(params.key).enqueueCallBack(_networkState, ::success, true)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
@@ -68,9 +65,7 @@ class MovieDataSource: PageKeyedDataSource<Int, Movie>() {
             }
         }
 
-        RetrofitBuilder.buildService(ITMDbMovies::class.java)
-            .getPopularMovies(params.key)
-            .enqueueCallBack(_networkState, ::success)
+        movie(params.key).enqueueCallBack(_networkState, ::success)
         */
     }
 }

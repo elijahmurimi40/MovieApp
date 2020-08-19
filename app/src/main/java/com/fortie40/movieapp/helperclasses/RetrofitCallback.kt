@@ -1,6 +1,9 @@
 package com.fortie40.movieapp.helperclasses
 
 import androidx.lifecycle.MutableLiveData
+import com.fortie40.movieapp.models.MovieResponse
+import com.fortie40.movieapp.retrofitservices.ITMDbMovies
+import com.fortie40.movieapp.retrofitservices.RetrofitBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,5 +39,10 @@ object RetrofitCallback {
                 }
             }
         })
+    }
+
+    fun movie(page: Int): Call<MovieResponse> {
+        val itmDbMovies = RetrofitBuilder.buildService(ITMDbMovies::class.java)
+        return itmDbMovies.getPopularMovies(page)
     }
 }
