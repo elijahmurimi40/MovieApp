@@ -34,7 +34,7 @@ fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
 @BindingAdapter("setAdapter")
 fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
     if (!::adapter.isInitialized)
-        adapter = ListActivityAdapter()
+        adapter = ListActivityAdapter(rv.context)
 
     rv.adapter = adapter
     data.let {
@@ -53,7 +53,7 @@ fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
 @BindingAdapter(value = ["listIsEmpty", "setVisibility"], requireAll = true)
 fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?) {
     if (!::adapter.isInitialized)
-        adapter = ListActivityAdapter()
+        adapter = ListActivityAdapter(view.context)
 
     networkState.let {
         when (view) {

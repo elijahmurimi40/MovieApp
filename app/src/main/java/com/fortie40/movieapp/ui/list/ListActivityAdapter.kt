@@ -1,5 +1,6 @@
 package com.fortie40.movieapp.ui.list
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.MOVIE_VIEW_TYPE
 import com.fortie40.movieapp.NETWORK_VIEW_TYPE
 import com.fortie40.movieapp.helperclasses.NetworkState
+import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.models.Movie
 
-class ListActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
+class ListActivityAdapter(private val context: Context)
+    : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
     companion object {
         fun viewInflater(parent: ViewGroup, layout: Int): ViewDataBinding {
             val layoutInflater = LayoutInflater.from(parent.context)
@@ -32,7 +35,7 @@ class ListActivityAdapter : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Mov
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == MOVIE_VIEW_TYPE) {
-            (holder as MovieItemViewHolder).bind(getItem(position))
+            (holder as MovieItemViewHolder).bind(getItem(position), context as IClickListener)
         } else {
             val layoutParams = holder.itemView.layoutParams as
                     StaggeredGridLayoutManager.LayoutParams

@@ -9,9 +9,10 @@ import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.MovieRepository
 import com.fortie40.movieapp.data.TMDbMovieViewModelFactory
 import com.fortie40.movieapp.databinding.ActivityListBinding
+import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.retrofitservices.RetrofitCallback
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(), IClickListener {
     private lateinit var activityListBinding: ActivityListBinding
 
     private lateinit var repository: MovieRepository
@@ -36,5 +37,9 @@ class ListActivity : AppCompatActivity() {
 
         // Picasso.get().isLoggingEnabled = true
         // Picasso.get().setIndicatorsEnabled(true)
+    }
+
+    override fun onMovieClick(id: Int) {
+        println(id)
     }
 }

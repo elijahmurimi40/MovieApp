@@ -5,6 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.R
+import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.models.Movie
 
 class MovieItemViewHolder private constructor(private val binding: ViewDataBinding) :
@@ -17,8 +18,9 @@ class MovieItemViewHolder private constructor(private val binding: ViewDataBindi
         }
     }
 
-    fun bind(movie: Movie?) {
+    fun bind(movie: Movie?, iClickListener: IClickListener) {
         binding.setVariable(BR.movie, movie)
+        binding.setVariable(BR.iClickListener, iClickListener)
         binding.executePendingBindings()
     }
 }

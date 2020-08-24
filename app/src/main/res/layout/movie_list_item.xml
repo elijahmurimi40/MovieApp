@@ -6,6 +6,10 @@
         <variable
             name="movie"
             type="com.fortie40.movieapp.models.Movie" />
+
+        <variable
+            name="iClickListener"
+            type="com.fortie40.movieapp.interfaces.IClickListener" />
     </data>
     <LinearLayout
         android:orientation="vertical"
@@ -23,7 +27,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{() -> iClickListener.onMovieClick(movie.id)}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
