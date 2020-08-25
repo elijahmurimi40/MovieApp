@@ -1,5 +1,6 @@
 package com.fortie40.movieapp.bindingadapters
 
+import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
@@ -12,7 +13,17 @@ import com.fortie40.movieapp.layoutmanagers.MoviesStaggeredGridLayoutManager
 import com.fortie40.movieapp.models.Movie
 import com.fortie40.movieapp.ui.list.ListActivityAdapter
 
-private lateinit var adapter: ListActivityAdapter
+private var adapter: ListActivityAdapter? = null
+
+private fun setUpAdapter(context: Context) {
+    if (adapter == null)
+        adapter = ListActivityAdapter(context)
+}
+
+private fun tearDownAdapter(rv: RecyclerView) {
+    rv.adapter = null
+    adapter = null
+}
 
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
@@ -33,28 +44,26 @@ fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
 
 @BindingAdapter("setAdapter")
 fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
-    if (!::adapter.isInitialized)
-        adapter = ListActivityAdapter(rv.context)
-
-    rv.adapter = adapter
+    setUpAdapter(rv.context)
     data.let {
-        adapter.submitList(it)
+        adapter!!.submitList(it)
     }
 
     rv.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
         override fun onViewDetachedFromWindow(v: View?) {
-            rv.adapter = null
+            tearDownAdapter(rv)
         }
 
-        override fun onViewAttachedToWindow(v: View?) = Unit
+        override fun onViewAttachedToWindow(v: View?) {
+            setUpAdapter(rv.context)
+            rv.adapter = adapter
+        }
     })
 }
 
 @BindingAdapter(value = ["listIsEmpty", "setVisibility"], requireAll = true)
 fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?) {
-    if (!::adapter.isInitialized)
-        adapter = ListActivityAdapter(view.context)
-
+    setUpAdapter(view.context)
     networkState.let {
         when (view) {
             is ProgressBar -> {
@@ -74,6 +83,6 @@ fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?)
         }
 
         if (!listIsEmpty)
-            adapter.setNetWorkState(it!!)
+            adapter!!.setNetWorkState(it!!)
     }
 }
