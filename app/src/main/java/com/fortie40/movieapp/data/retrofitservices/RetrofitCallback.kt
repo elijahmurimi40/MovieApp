@@ -40,8 +40,9 @@ object RetrofitCallback {
         })
     }
 
-    fun movie(page: Int): Call<MovieResponse> {
-        val itmDbMovies = RetrofitBuilder.buildService(ITMDbMovies::class.java)
+    private val itmDbMovies = RetrofitBuilder.buildService(ITMDbMovies::class.java)
+
+    fun tMDbPopularMoviesPage(page: Int): Call<MovieResponse> {
         return itmDbMovies.getPopularMovies(page)
     }
 }

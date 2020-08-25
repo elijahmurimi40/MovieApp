@@ -28,7 +28,7 @@ class ListActivity : AppCompatActivity(), IClickListener {
         super.onCreate(savedInstanceState)
         activityListBinding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
-        movieListRepository = MovieListRepository(RetrofitCallback::movie)
+        movieListRepository = MovieListRepository(RetrofitCallback::tMDbPopularMoviesPage)
         viewModelFactory = ViewModelFactory(movieListRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ListActivityViewModel::class.java)
 
