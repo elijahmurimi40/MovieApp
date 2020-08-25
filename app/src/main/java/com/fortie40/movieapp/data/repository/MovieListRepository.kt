@@ -12,27 +12,27 @@ import retrofit2.Call
 
 class MovieListRepository(private val movie: (Int) -> Call<MovieResponse>) {
     private lateinit var moviePagedList: LiveData<PagedList<Movie>>
-    private lateinit var moviesListDataSourceFactory: MovieListDataSourceFactory
+    private lateinit var movieListDataSourceFactory: MovieListDataSourceFactory
 
     fun fetchLiveMoviePagedList(): LiveData<PagedList<Movie>> {
-        if (!this::moviesListDataSourceFactory.isInitialized)
-            moviesListDataSourceFactory = MovieListDataSourceFactory(movie)
+        if (!this::movieListDataSourceFactory.isInitialized)
+            movieListDataSourceFactory = MovieListDataSourceFactory(movie)
 
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(POST_PER_PAGE)
             .build()
 
-        moviePagedList = LivePagedListBuilder(moviesListDataSourceFactory, config).build()
+        moviePagedList = LivePagedListBuilder(movieListDataSourceFactory, config).build()
         return moviePagedList
     }
 
     fun getNetworkState(): LiveData<NetworkState> {
-        if (!this::moviesListDataSourceFactory.isInitialized)
-            moviesListDataSourceFactory = MovieListDataSourceFactory(movie)
+        if (!this::movieListDataSourceFactory.isInitialized)
+            movieListDataSourceFactory = MovieListDataSourceFactory(movie)
 
         return Transformations.switchMap<MovieListDataSource, NetworkState>(
-            moviesListDataSourceFactory.moviesLiveListDataSource, MovieListDataSource::networkState
+            movieListDataSourceFactory.movieLiveListDataSource, MovieListDataSource::networkState
         )
     }
 }

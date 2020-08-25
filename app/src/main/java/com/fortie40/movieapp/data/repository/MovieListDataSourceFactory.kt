@@ -7,15 +7,15 @@ import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 
-class MovieListDataSourceFactory(private val movie: (Int) -> Call<MovieResponse>)
+class MovieListDataSourceFactory(private val moviesPage: (Int) -> Call<MovieResponse>)
     : DataSource.Factory<Int, Movie>() {
 
-    private val _moviesLiveDataSource = MutableLiveData<MovieListDataSource>()
-    val moviesLiveListDataSource: LiveData<MovieListDataSource> = _moviesLiveDataSource
+    private val _movieLiveListDataSource = MutableLiveData<MovieListDataSource>()
+    val movieLiveListDataSource: LiveData<MovieListDataSource> = _movieLiveListDataSource
 
     override fun create(): DataSource<Int, Movie> {
-        val movieDataSource = MovieListDataSource(movie)
-        _moviesLiveDataSource.postValue(movieDataSource)
+        val movieDataSource = MovieListDataSource(moviesPage)
+        _movieLiveListDataSource.postValue(movieDataSource)
         return movieDataSource
     }
 }

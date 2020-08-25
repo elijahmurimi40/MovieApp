@@ -11,7 +11,7 @@ import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 import retrofit2.Response
 
-class MovieListDataSource(private val movie: (Int) -> Call<MovieResponse>)
+class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
     : PageKeyedDataSource<Int, Movie>() {
 
     private val page = FIRST_PAGE
@@ -29,7 +29,7 @@ class MovieListDataSource(private val movie: (Int) -> Call<MovieResponse>)
             _networkState.postValue(NetworkState.LOADED)
         }
 
-        movie.invoke(page).enqueueCallBack(_networkState, ::success)
+        moviesPage.invoke(page).enqueueCallBack(_networkState, ::success)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
@@ -45,7 +45,7 @@ class MovieListDataSource(private val movie: (Int) -> Call<MovieResponse>)
             }
         }
 
-        movie(params.key).enqueueCallBack(_networkState, ::success, true)
+        moviesPage(params.key).enqueueCallBack(_networkState, ::success, true)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
@@ -65,7 +65,7 @@ class MovieListDataSource(private val movie: (Int) -> Call<MovieResponse>)
             }
         }
 
-        movie(params.key).enqueueCallBack(_networkState, ::success)
+        moviePages(params.key).enqueueCallBack(_networkState, ::success)
         */
     }
 }
