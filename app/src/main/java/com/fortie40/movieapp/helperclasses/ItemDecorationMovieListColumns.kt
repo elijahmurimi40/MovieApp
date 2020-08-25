@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.layoutmanagers
+package com.fortie40.movieapp.helperclasses
 
 import android.content.Context
 import android.graphics.Rect
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.R
 
-class ItemDecorationMovieColumn(private val context: Context, private val spanCount: Int)
+class ItemDecorationMovieListColumns(private val context: Context, private val spanCount: Int)
     : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State

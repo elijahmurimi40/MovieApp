@@ -1,17 +1,17 @@
-package com.fortie40.movieapp.data
+package com.fortie40.movieapp.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.fortie40.movieapp.FIRST_PAGE
 import com.fortie40.movieapp.helperclasses.NetworkState
-import com.fortie40.movieapp.retrofitservices.RetrofitCallback.enqueueCallBack
-import com.fortie40.movieapp.models.Movie
-import com.fortie40.movieapp.models.MovieResponse
+import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback.enqueueCallBack
+import com.fortie40.movieapp.data.models.Movie
+import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 import retrofit2.Response
 
-class MovieDataSource(private val movie: (Int) -> Call<MovieResponse>)
+class MovieListDataSource(private val movie: (Int) -> Call<MovieResponse>)
     : PageKeyedDataSource<Int, Movie>() {
 
     private val page = FIRST_PAGE

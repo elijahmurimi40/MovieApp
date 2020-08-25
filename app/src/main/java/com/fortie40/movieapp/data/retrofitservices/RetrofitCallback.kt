@@ -1,8 +1,8 @@
-package com.fortie40.movieapp.retrofitservices
+package com.fortie40.movieapp.data.retrofitservices
 
 import androidx.lifecycle.MutableLiveData
 import com.fortie40.movieapp.helperclasses.NetworkState
-import com.fortie40.movieapp.models.MovieResponse
+import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

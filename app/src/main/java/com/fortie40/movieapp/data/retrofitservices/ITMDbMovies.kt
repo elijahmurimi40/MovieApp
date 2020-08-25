@@ -1,6 +1,6 @@
-package com.fortie40.movieapp.retrofitservices
+package com.fortie40.movieapp.data.retrofitservices
 
-import com.fortie40.movieapp.models.MovieResponse
+import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

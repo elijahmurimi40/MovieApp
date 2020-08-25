@@ -6,7 +6,7 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.interfaces.IClickListener
-import com.fortie40.movieapp.models.Movie
+import com.fortie40.movieapp.data.models.Movie
 
 class MovieItemViewHolder private constructor(private val binding: ViewDataBinding) :
     RecyclerView.ViewHolder(binding.root) {

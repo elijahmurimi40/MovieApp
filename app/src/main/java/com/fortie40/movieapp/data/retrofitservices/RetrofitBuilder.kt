@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.retrofitservices
+package com.fortie40.movieapp.data.retrofitservices
 
 import android.annotation.SuppressLint
 import android.os.Build

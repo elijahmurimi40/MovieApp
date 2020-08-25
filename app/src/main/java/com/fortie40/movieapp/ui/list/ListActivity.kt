@@ -8,18 +8,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.fortie40.movieapp.MOVIE_ID
 import com.fortie40.movieapp.R
-import com.fortie40.movieapp.data.MovieRepository
-import com.fortie40.movieapp.data.TMDbMovieViewModelFactory
+import com.fortie40.movieapp.data.repository.MovieListRepository
+import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.databinding.ActivityListBinding
 import com.fortie40.movieapp.interfaces.IClickListener
-import com.fortie40.movieapp.retrofitservices.RetrofitCallback
+import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.ui.details.DetailsActivity
 
 class ListActivity : AppCompatActivity(), IClickListener {
     private lateinit var activityListBinding: ActivityListBinding
 
-    private lateinit var repository: MovieRepository
-    private lateinit var viewModelFactory: TMDbMovieViewModelFactory
+    private lateinit var movieListRepository: MovieListRepository
+    private lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: ListActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +28,8 @@ class ListActivity : AppCompatActivity(), IClickListener {
         super.onCreate(savedInstanceState)
         activityListBinding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
-        repository = MovieRepository(RetrofitCallback::movie)
-        viewModelFactory = TMDbMovieViewModelFactory(repository)
+        movieListRepository = MovieListRepository(RetrofitCallback::movie)
+        viewModelFactory = ViewModelFactory(movieListRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ListActivityViewModel::class.java)
 
         viewModel.title = "Popular"

@@ -13,7 +13,7 @@ import com.fortie40.movieapp.MOVIE_VIEW_TYPE
 import com.fortie40.movieapp.NETWORK_VIEW_TYPE
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.interfaces.IClickListener
-import com.fortie40.movieapp.models.Movie
+import com.fortie40.movieapp.data.models.Movie
 
 class ListActivityAdapter(private val context: Context)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {

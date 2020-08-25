@@ -1,4 +1,4 @@
-package com.fortie40.movieapp.models
+package com.fortie40.movieapp.data.models
 
 import com.google.gson.annotations.SerializedName
 

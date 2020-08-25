@@ -8,9 +8,9 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
-import com.fortie40.movieapp.layoutmanagers.ItemDecorationMovieColumn
-import com.fortie40.movieapp.layoutmanagers.MoviesStaggeredGridLayoutManager
-import com.fortie40.movieapp.models.Movie
+import com.fortie40.movieapp.helperclasses.ItemDecorationMovieListColumns
+import com.fortie40.movieapp.helperclasses.MovieListStaggeredGridLayoutManager
+import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.ui.list.ListActivityAdapter
 
 private var adapter: ListActivityAdapter? = null
@@ -27,10 +27,10 @@ private fun tearDownAdapter(rv: RecyclerView) {
 
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
-    val layoutManager = MoviesStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
+    val layoutManager = MovieListStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
     rv.invalidateItemDecorations()
-    rv.addItemDecoration(ItemDecorationMovieColumn(rv.context, spanCount))
+    rv.addItemDecoration(ItemDecorationMovieListColumns(rv.context, spanCount))
     rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
