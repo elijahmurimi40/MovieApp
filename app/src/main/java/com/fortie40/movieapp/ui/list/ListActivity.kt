@@ -1,16 +1,19 @@
 package com.fortie40.movieapp.ui.list
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.fortie40.movieapp.MOVIE_ID
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.MovieRepository
 import com.fortie40.movieapp.data.TMDbMovieViewModelFactory
 import com.fortie40.movieapp.databinding.ActivityListBinding
 import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.retrofitservices.RetrofitCallback
+import com.fortie40.movieapp.ui.details.DetailsActivity
 
 class ListActivity : AppCompatActivity(), IClickListener {
     private lateinit var activityListBinding: ActivityListBinding
@@ -40,6 +43,8 @@ class ListActivity : AppCompatActivity(), IClickListener {
     }
 
     override fun onMovieClick(id: Int) {
-        println(id)
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(MOVIE_ID, id)
+        startActivity(intent)
     }
 }

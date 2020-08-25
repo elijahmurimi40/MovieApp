@@ -26,3 +26,6 @@ const val NUMBER_OF_COLUMNS = 2
 
 // Integer Value that number of column in RecyclerView
 const val NUMBER_OF_COLUMNS_LAND = 3
+
+// movie id form list to details
+const val MOVIE_ID = "movie_id"
