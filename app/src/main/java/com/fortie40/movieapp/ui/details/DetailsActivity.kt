@@ -4,14 +4,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.fortie40.movieapp.MOVIE_ID
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityDetailsBinding
 import com.fortie40.movieapp.helperclasses.ViewModelFactoryD
-import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var activityDetailsBinding: ActivityDetailsBinding
@@ -33,10 +31,9 @@ class DetailsActivity : AppCompatActivity() {
         viewModelFactory = ViewModelFactoryD(movieDetailsRepository, movieId)
         val viewModel: DetailsActivityViewModel by viewModels {viewModelFactory}
 
-        viewModel.movieDetails.observe(this, Observer {
-            println(it.title)
-        })
-
-        id.text = movieId.toString()
+        activityDetailsBinding.apply {
+            this.lifecycleOwner = this@DetailsActivity
+            this.viewModel = viewModel
+        }
     }
 }

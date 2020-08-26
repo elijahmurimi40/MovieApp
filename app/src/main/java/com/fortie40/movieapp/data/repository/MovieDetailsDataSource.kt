@@ -19,6 +19,7 @@ class MovieDetailsDataSource(private val movieId: (Int) -> Call<MovieDetails>) {
 
     private fun success(response: Response<MovieDetails>) {
         _movieDetailsResponse.postValue(response.body())
+        _networkState.postValue(NetworkState.LOADED)
     }
 
     fun fetchMovieDetails(movieId: Int) {
