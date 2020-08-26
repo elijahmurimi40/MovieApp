@@ -2,10 +2,12 @@ package com.fortie40.movieapp.helperclasses
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.fortie40.movieapp.data.repository.MovieListRepository
 
-class ViewModelFactory(private val movieListRepository: MovieListRepository) : ViewModelProvider.Factory {
+class ViewModelFactory(private val repository: Any, private val arg: Any? = null) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(movieListRepository::class.java).newInstance(movieListRepository)
+        return if (arg == null)
+            modelClass.getConstructor(repository::class.java).newInstance(repository)
+        else
+            modelClass.getConstructor(repository::class.java, arg::class.java).newInstance(repository, arg)
     }
 }
