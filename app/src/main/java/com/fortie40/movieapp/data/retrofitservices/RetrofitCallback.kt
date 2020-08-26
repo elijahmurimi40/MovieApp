@@ -1,6 +1,7 @@
 package com.fortie40.movieapp.data.retrofitservices
 
 import androidx.lifecycle.MutableLiveData
+import com.fortie40.movieapp.data.models.MovieDetails
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
@@ -44,5 +45,9 @@ object RetrofitCallback {
 
     fun tMDbPopularMoviesPage(page: Int): Call<MovieResponse> {
         return itmDbMovies.getPopularMovies(page)
+    }
+
+    fun tMDbMovieDetailsId(id: Int): Call<MovieDetails> {
+        return itmDbMovies.getMovieDetails(id)
     }
 }
