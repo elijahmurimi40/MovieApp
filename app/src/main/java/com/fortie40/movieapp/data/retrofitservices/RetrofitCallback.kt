@@ -47,7 +47,9 @@ object RetrofitCallback {
         return itmDbMovies.getPopularMovies(page)
     }
 
-    fun tMDbMovieDetailsId(id: Int): Call<MovieDetails> {
+    fun tMDbMovieDetailsId(@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") id: Integer)
+            : Call<MovieDetails> {
+
         return itmDbMovies.getMovieDetails(id)
     }
 }

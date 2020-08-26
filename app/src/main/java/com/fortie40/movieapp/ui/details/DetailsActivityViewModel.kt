@@ -6,8 +6,10 @@ import com.fortie40.movieapp.data.models.MovieDetails
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.helperclasses.NetworkState
 
-class DetailsActivityViewModel(private val movieDetailsRepository: MovieDetailsRepository, movieId: Int)
-    : ViewModel() {
+class DetailsActivityViewModel(
+    private val movieDetailsRepository: MovieDetailsRepository,
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") movieId: Integer) : ViewModel() {
+
     val movieDetails: LiveData<MovieDetails> by lazy {
         movieDetailsRepository.fetchMovieDetails(movieId)
     }

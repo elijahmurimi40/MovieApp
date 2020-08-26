@@ -11,9 +11,3 @@ class ViewModelFactory(private val repository: Any, private val arg: Any? = null
             modelClass.getConstructor(repository::class.java, arg::class.java).newInstance(repository, arg)
     }
 }
-
-class ViewModelFactoryD(private val repository: Any, private val arg: Int) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(repository::class.java, arg::class.java).newInstance(repository, arg)
-    }
-}

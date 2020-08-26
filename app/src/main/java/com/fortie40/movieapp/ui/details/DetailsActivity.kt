@@ -9,13 +9,13 @@ import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityDetailsBinding
-import com.fortie40.movieapp.helperclasses.ViewModelFactoryD
+import com.fortie40.movieapp.helperclasses.ViewModelFactory
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var activityDetailsBinding: ActivityDetailsBinding
 
     private lateinit var movieDetailsRepository: MovieDetailsRepository
-    private lateinit var viewModelFactory: ViewModelFactoryD
+    private lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity() {
         val movieId = intent.getIntExtra(MOVIE_ID, 605116)
 
         movieDetailsRepository = MovieDetailsRepository(RetrofitCallback::tMDbMovieDetailsId)
-        viewModelFactory = ViewModelFactoryD(movieDetailsRepository, movieId)
+        viewModelFactory = ViewModelFactory(movieDetailsRepository, movieId)
         val viewModel: DetailsActivityViewModel by viewModels {viewModelFactory}
 
         activityDetailsBinding.apply {

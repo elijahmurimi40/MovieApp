@@ -12,5 +12,7 @@ interface ITMDbMovies {
     fun getPopularMovies(@Query("page") page: Int): Call<MovieResponse>
 
     @GET("movie/{movie_id}")
-    fun getMovieDetails(@Path("movie_id") id: Int): Call<MovieDetails>
+    fun getMovieDetails(
+        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+        @Path("movie_id") id: Integer): Call<MovieDetails>
 }
