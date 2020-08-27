@@ -12,16 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@{viewModel.movieDetails.title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyle"
@@ -31,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setVisibility="@{viewModel.networkState}"/>
+            app:setVisibilityDetails="@{viewModel.networkState}"/>
 
         <TextView
             android:id="@+id/text_error"
@@ -42,7 +32,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setVisibility="@{viewModel.networkState}"/>
+            app:setVisibilityDetails="@{viewModel.networkState}"/>
+
+        <ImageView
+            android:id="@+id/poster_path"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:contentDescription="@string/movie_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/place_holder"
+            android:scaleType="center"
+            app:setUpDetails="@{viewModel.movieDetails}"/>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
