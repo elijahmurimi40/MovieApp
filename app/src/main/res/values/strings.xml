@@ -17,4 +17,8 @@
 
     <!-- activity_details -->
     <string name="back_arrow">Back Arrow</string>
+
+    <!-- ActivityDetailsBindingAdapters -->
+    <string name="date_time">%1$s ● %2$s</string>
+    <string name="h_min">%1$dh %2$dmin</string>
 </resources>

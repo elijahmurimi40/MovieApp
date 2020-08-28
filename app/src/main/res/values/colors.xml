@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <!-- color for back arrow -->
+    <!-- activity_details-->
     <color name="transBlack">#40000000</color>
+    <color name="transBlackD">#ED000000</color>
 </resources>

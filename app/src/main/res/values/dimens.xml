@@ -3,4 +3,6 @@
     <dimen name="densityPixels6">6dp</dimen>
     <dimen name="densityPixels12">12dp</dimen>
     <dimen name="densityPixels16">16dp</dimen>
+    
+    <dimen name="material_text_headline">24sp</dimen>
 </resources>
