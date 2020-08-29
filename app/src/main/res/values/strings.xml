@@ -21,4 +21,8 @@
     <!-- ActivityDetailsBindingAdapters -->
     <string name="date_time">%1$s ● %2$s</string>
     <string name="h_min">%1$dh %2$dmin</string>
+
+    <!-- DealsActivity -->
+    <string name="overview">Overview</string>
+    <string name="trailers">Trailers</string>
 </resources>

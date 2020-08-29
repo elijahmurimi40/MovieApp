@@ -64,7 +64,8 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.25" />
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/activity_details_background"
@@ -76,38 +77,51 @@
             app:layout_constraintTop_toTopOf="@+id/guideline"
             app:layout_constraintVertical_bias="1.0">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/movie_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="@{viewModel.movieDetails.title}"
+                android:textSize="@dimen/material_text_headline"
+                app:fontFamily="@font/lexend_peta_egular" />
 
-                <TextView
-                    android:id="@+id/movie_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center"
-                    android:text="@{viewModel.movieDetails.title}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textSize="@dimen/material_text_headline"
-                    app:fontFamily="@font/lexend_peta_egular"/>
+            <TextView
+                android:id="@+id/date_run_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/densityPixels16"
+                android:layout_marginLeft="@dimen/densityPixels16"
+                android:layout_marginEnd="@dimen/densityPixels16"
+                android:layout_marginRight="16dp"
+                android:layout_below="@+id/movie_title"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                app:setTextDateRunTime="@{viewModel.movieDetails}" />
 
-                <TextView
-                    android:id="@+id/date_run_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    app:layout_constraintEnd_toEndOf="@+id/movie_title"
-                    app:layout_constraintStart_toStartOf="@+id/movie_title"
-                    app:layout_constraintTop_toBottomOf="@+id/movie_title"
-                    app:setTextDateRunTime="@{viewModel.movieDetails}"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/date_run_time"
+                android:background="@android:color/transparent"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabGravity="fill"
+                app:tabMode="scrollable"
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+            
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tab_layout" />
+
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"
