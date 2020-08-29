@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/poster_path"
             android:layout_width="0dp"
-            android:layout_height="220dp"
+            android:layout_height="180dp"
             android:contentDescription="@string/movie_image"
             android:scaleType="center"
             android:src="@drawable/place_holder"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.25" />
+            app:layout_constraintGuide_percent="0.21" />
 
         <RelativeLayout
             android:orientation="vertical"

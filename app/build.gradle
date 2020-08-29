@@ -82,4 +82,7 @@ dependencies {
     // leak canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
+    // blur
+    implementation 'jp.wasabeef:picasso-transformations:2.2.1'
+
 }
