@@ -33,7 +33,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val movieId = intent.getIntExtra(MOVIE_ID, 605116)
 
-        movieDetailsRepository = MovieDetailsRepository(RetrofitCallback::tMDbMovieDetailsId)
+        movieDetailsRepository = MovieDetailsRepository(RetrofitCallback::tMDbMovies)
         viewModelFactory = ViewModelFactory(movieDetailsRepository, movieId)
         val viewModel: DetailsActivityViewModel by viewModels {viewModelFactory}
 

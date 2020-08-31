@@ -2,27 +2,33 @@ package com.fortie40.movieapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.fortie40.movieapp.data.models.MovieDetails
+import com.fortie40.movieapp.data.models.Video
+import com.fortie40.movieapp.data.retrofitservices.ITMDbMovies
 import com.fortie40.movieapp.helperclasses.NetworkState
-import retrofit2.Call
 
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
-class MovieDetailsRepository(private val movieId: (Integer) -> Call<MovieDetails>) {
+class MovieDetailsRepository(private val itmDbMovies: () -> ITMDbMovies) {
     private lateinit var movieDetailsDataSource: MovieDetailsDataSource
 
-    fun fetchMovieDetails(movieId: Integer)
-            : LiveData<MovieDetails> {
-
+    private fun init() {
         if (!this::movieDetailsDataSource.isInitialized)
-            movieDetailsDataSource = MovieDetailsDataSource(this.movieId)
+            movieDetailsDataSource = MovieDetailsDataSource(this.itmDbMovies)
+    }
 
+    fun fetchMovieDetails(movieId: Integer): LiveData<MovieDetails> {
+        init()
         movieDetailsDataSource.fetchMovieDetails(movieId)
         return movieDetailsDataSource.movieDetailsResponse
     }
 
-    fun getMovieDetailsNetworkState(): LiveData<NetworkState> {
-        if (!this::movieDetailsDataSource.isInitialized)
-            movieDetailsDataSource = MovieDetailsDataSource(this.movieId)
+    fun fetchMovieVideos(movieId: Integer): LiveData<List<Video>> {
+        init()
+        movieDetailsDataSource.fetchMovieVideos(movieId)
+        return movieDetailsDataSource.video
+    }
 
+    fun getNetworkState(): LiveData<NetworkState> {
+        init()
         return movieDetailsDataSource.networkState
     }
 }

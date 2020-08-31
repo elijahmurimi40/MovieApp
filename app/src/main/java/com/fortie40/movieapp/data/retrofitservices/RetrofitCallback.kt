@@ -1,9 +1,8 @@
 package com.fortie40.movieapp.data.retrofitservices
 
 import androidx.lifecycle.MutableLiveData
-import com.fortie40.movieapp.data.models.MovieDetails
-import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.data.models.MovieResponse
+import com.fortie40.movieapp.helperclasses.NetworkState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,9 +46,7 @@ object RetrofitCallback {
         return itmDbMovies.getPopularMovies(page)
     }
 
-    fun tMDbMovieDetailsId(@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") id: Integer)
-            : Call<MovieDetails> {
-
-        return itmDbMovies.getMovieDetails(id)
+    fun tMDbMovies(): ITMDbMovies {
+        return itmDbMovies
     }
 }
