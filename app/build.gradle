@@ -85,4 +85,7 @@ dependencies {
     // blur
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
 
+    // Fragment artifacts
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
 }

@@ -3,6 +3,7 @@ package com.fortie40.movieapp.ui.details
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import com.fortie40.movieapp.MOVIE_ID
 import com.fortie40.movieapp.R
@@ -20,6 +21,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
         activityDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_details)
 

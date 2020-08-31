@@ -81,3 +81,12 @@ fun setTextDateRunTime(tv: TextView, movieDetails: MovieDetails?) {
         tv.text = tv.context.getString(R.string.date_time, year, time)
     }
 }
+
+// OverviewTabBindingAdapters
+@BindingAdapter("setUpImage")
+fun p(iv: ImageView, path: String?) {
+    path.let {
+        if (it != null)
+            setImage(iv, it)
+    }
+}

@@ -25,4 +25,8 @@
     <!-- DealsActivity -->
     <string name="overview">Overview</string>
     <string name="trailers">Trailers</string>
+    
+    <!-- overview_tab -->
+    <string name="poster_path">Poster Path</string>
+    <string name="backdrop_path">Backdrop Path</string>
 </resources>
