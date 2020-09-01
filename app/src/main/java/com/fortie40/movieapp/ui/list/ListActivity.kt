@@ -40,6 +40,10 @@ class ListActivity : AppCompatActivity(), IClickListener {
 
         // Picasso.get().isLoggingEnabled = true
         // Picasso.get().setIndicatorsEnabled(true)
+        activityListBinding.recyclerView.swipeToRefresh.setOnRefreshListener {
+            viewModel.moviePagedList.value?.dataSource?.invalidate()
+            activityListBinding.recyclerView.swipeToRefresh.isRefreshing = false
+        }
     }
 
     override fun onMovieClick(id: Int) {
