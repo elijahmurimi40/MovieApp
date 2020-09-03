@@ -22,4 +22,9 @@ class DetailsActivityViewModel(
     val networkState: LiveData<NetworkState> by lazy {
         movieDetailsRepository.getNetworkState()
     }
+
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    fun refresh(movieId: Integer) {
+        movieDetailsRepository.fetchMovieDetails(movieId)
+    }
 }

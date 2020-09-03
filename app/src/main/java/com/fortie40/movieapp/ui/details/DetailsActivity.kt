@@ -41,6 +41,12 @@ class DetailsActivity : AppCompatActivity() {
             this.lifecycleOwner = this@DetailsActivity
             this.viewModel = viewModel
         }
+
+        activityDetailsBinding.swipeToRefresh.setOnRefreshListener {
+            @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+            viewModel.refresh(movieId as Integer)
+            activityDetailsBinding.swipeToRefresh.isRefreshing = false
+        }
     }
 
     private fun setUpTabLayout() {
