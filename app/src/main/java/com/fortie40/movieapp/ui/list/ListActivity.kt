@@ -48,6 +48,10 @@ class ListActivity : AppCompatActivity(), IClickListener {
             viewModel.moviePagedList.value?.dataSource?.invalidate()
             activityListBinding.recyclerView.swipeToRefresh.isRefreshing = false
         }
+
+        activityListBinding.recyclerView.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onMovieClick(id: Int) {
