@@ -29,3 +29,12 @@ const val NUMBER_OF_COLUMNS_LAND = 3
 
 // movie id form list to details
 const val MOVIE_ID = "movie_id"
+
+// name from main activity to list activity
+const val TYPE_OF_MOVIE = "type_of_movie"
+
+// value from main activity to list activity
+const val POPULAR = "popular"
+const val NOW_PLAYING = "now_playing"
+const val UPCOMING = "upcoming"
+const val TOP_RATED = "top_rated"

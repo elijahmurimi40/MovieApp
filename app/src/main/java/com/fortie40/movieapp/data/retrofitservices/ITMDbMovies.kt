@@ -13,6 +13,15 @@ interface ITMDbMovies {
     @GET("movie/popular")
     fun getPopularMovies(@Query("page") page: Int): Call<MovieResponse>
 
+    @GET("movie/now_playing")
+    fun getNowPlayingMovies(@Query("page") page: Int): Call<MovieResponse>
+
+    @GET("movie/upcoming")
+    fun getUpcomingMovies(@Query("page") page: Int): Call<MovieResponse>
+
+    @GET("movie/top_rated")
+    fun getTopRatedMovies(@Query("page") page: Int): Call<MovieResponse>
+
     @GET("movie/{movie_id}")
     fun getMovieDetails(@Path("movie_id") id: Integer): Call<MovieDetails>
 

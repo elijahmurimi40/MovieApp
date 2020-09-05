@@ -46,6 +46,18 @@ object RetrofitCallback {
         return itmDbMovies.getPopularMovies(page)
     }
 
+    fun tMDbNowPlayingMoviesPage(page: Int): Call<MovieResponse> {
+        return itmDbMovies.getNowPlayingMovies(page)
+    }
+
+    fun tMDbUpcomingMoviesPage(page: Int): Call<MovieResponse> {
+        return itmDbMovies.getUpcomingMovies(page)
+    }
+
+    fun tMDbTopRatedMoviesPage(page: Int): Call<MovieResponse> {
+        return itmDbMovies.getTopRatedMovies(page)
+    }
+
     fun tMDbMovies(): ITMDbMovies {
         return itmDbMovies
     }

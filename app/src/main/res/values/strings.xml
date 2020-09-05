@@ -29,4 +29,10 @@
     <!-- overview_tab -->
     <string name="poster_path">Poster Path</string>
     <string name="backdrop_path">Backdrop Path</string>
+    
+    <!-- List Activity / Main Activity -->
+    <string name="popular">Popular</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="top_rated">Top Rated</string>
 </resources>
