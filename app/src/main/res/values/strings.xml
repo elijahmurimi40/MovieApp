@@ -35,4 +35,8 @@
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
     <string name="top_rated">Top Rated</string>
+
+    <!-- activity_main.xml -->
+    <string name="title">Title</string>
+    <string name="more">More</string>
 </resources>
