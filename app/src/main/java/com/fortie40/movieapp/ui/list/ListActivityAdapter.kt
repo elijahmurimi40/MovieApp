@@ -1,29 +1,19 @@
 package com.fortie40.movieapp.ui.list
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.MOVIE_VIEW_TYPE
 import com.fortie40.movieapp.NETWORK_VIEW_TYPE
+import com.fortie40.movieapp.data.models.Movie
+import com.fortie40.movieapp.helperclasses.MovieDiffCallback
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.interfaces.IClickListener
-import com.fortie40.movieapp.data.models.Movie
 
 class ListActivityAdapter(private val context: Context)
     : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
-    companion object {
-        fun viewInflater(parent: ViewGroup, layout: Int): ViewDataBinding {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            return DataBindingUtil.inflate(layoutInflater, layout, parent, false)
-        }
-    }
-
     private var networkState: NetworkState? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -75,16 +65,6 @@ class ListActivityAdapter(private val context: Context)
             }
         } else if (hasExtraRow && previousState != newNetworkState) { // hasExtraRow is true and hadExtra is true
             notifyItemChanged(itemCount - 1)
-        }
-    }
-
-    class MovieDiffCallback: DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem == newItem
         }
     }
 }

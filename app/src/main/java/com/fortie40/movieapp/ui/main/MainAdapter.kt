@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.models.MovieResponse
+import com.fortie40.movieapp.helperclasses.ItemDecorationHorizontal
 
 class MainAdapter: ListAdapter<MovieResponse, MainViewHolder>(MovieResponseDiffCallback()){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -23,6 +24,8 @@ class MainAdapter: ListAdapter<MovieResponse, MainViewHolder>(MovieResponseDiffC
         holder.titleVV.text = title
         val itemAdapter = ItemAdapter()
         holder.titleRV.setHasFixedSize(true)
+        holder.titleRV.invalidateItemDecorations()
+        holder.titleRV.addItemDecoration(ItemDecorationHorizontal(holder.titleRV.context))
         holder.titleRV.layoutManager = LinearLayoutManager(holder.titleRV.context, LinearLayoutManager.HORIZONTAL, false)
         holder.titleRV.adapter = itemAdapter
         itemAdapter.submitList(movies)

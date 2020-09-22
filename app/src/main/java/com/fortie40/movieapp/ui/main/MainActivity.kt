@@ -10,6 +10,7 @@ import com.fortie40.movieapp.*
 import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.databinding.ActivityMainBinding
+import com.fortie40.movieapp.helperclasses.ItemDecorationMainList
 import com.fortie40.movieapp.ui.list.ListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         recycler_view_main.setHasFixedSize(true)
+        recycler_view_main.invalidateItemDecorations()
+        recycler_view_main.addItemDecoration(ItemDecorationMainList(this))
         recycler_view_main.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         adapter = MainAdapter()
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             val p2 = Movie(i, "title$i", "", "", "", i)
             list.add(p2)
         }
-        for (i in 1..5) {
+        for (i in 1..8) {
             val m = MovieResponse("Title$i", i, i, i, i, list)
             p.add(m)
         }
