@@ -38,3 +38,9 @@ const val POPULAR = "popular"
 const val NOW_PLAYING = "now_playing"
 const val UPCOMING = "upcoming"
 const val TOP_RATED = "top_rated"
+
+// show movies horizontal
+const val MOVIE_VIEW_HORIZONTAL = 2
+
+// show button end list horizontal
+const val VIEW_ALL_HORIZONTAL = 1

@@ -22,8 +22,8 @@ class MainAdapter: ListAdapter<MovieResponse, MainViewHolder>(MovieResponseDiffC
         val movies = response.movieList
 
         holder.titleVV.text = title
-        val itemAdapter = ItemAdapter()
-        holder.titleRV.setHasFixedSize(true)
+        val itemAdapter = ItemAdapter(movies)
+        holder.titleRV.setHasFixedSize(false)
         holder.titleRV.invalidateItemDecorations()
         holder.titleRV.addItemDecoration(ItemDecorationHorizontal(holder.titleRV.context))
         holder.titleRV.layoutManager = LinearLayoutManager(holder.titleRV.context, LinearLayoutManager.HORIZONTAL, false)

@@ -12,7 +12,7 @@ class ItemViewHolder private constructor(private val binding: ViewDataBinding):
     RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        fun createMovieItemViewHolder(parent: ViewGroup): ItemViewHolder {
+        fun createItemViewHolder(parent: ViewGroup): ItemViewHolder {
             val viewDataBinding = HelperFunctions.viewInflater(parent, R.layout.item_horizontal)
             return ItemViewHolder(viewDataBinding)
         }

@@ -39,4 +39,7 @@
     <!-- activity_main.xml -->
     <string name="title">Title</string>
     <string name="more">More</string>
+
+    <!-- view_all.xml -->
+    <string name="view_all">View All</string>
 </resources>
