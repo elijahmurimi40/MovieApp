@@ -5,13 +5,13 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.fortie40.movieapp.helperclasses.NetworkState
-import com.fortie40.movieapp.helperclasses.ItemDecorationMovieListColumns
-import com.fortie40.movieapp.helperclasses.MovieListStaggeredGridLayoutManager
 import com.fortie40.movieapp.data.models.Movie
+import com.fortie40.movieapp.helperclasses.*
 import com.fortie40.movieapp.ui.list.ListActivityAdapter
+import com.fortie40.movieapp.ui.main.ItemAdapter
 
 private var adapter: ListActivityAdapter? = null
 
@@ -84,5 +84,24 @@ fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?)
 
         if (!listIsEmpty)
             adapter!!.setNetWorkState(it!!)
+    }
+}
+
+@BindingAdapter(value = ["setUpLinearLayout", "setData"], requireAll = true)
+fun setUpLinearLayout(rv: RecyclerView, type: Int, movies: List<Movie>) {
+    rv.setHasFixedSize(true)
+    rv.invalidateItemDecorations()
+    when (type) {
+        1 -> {
+            rv.addItemDecoration(ItemDecorationMainList(rv.context))
+            rv.layoutManager = MovieLinearLayoutManager(rv.context, LinearLayoutManager.VERTICAL, false)
+        }
+        else -> {
+            rv.addItemDecoration(ItemDecorationHorizontal(rv.context))
+            rv.layoutManager = MovieLinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
+            val adapter = ItemAdapter(movies)
+            rv.adapter = adapter
+            adapter.submitList(movies)
+        }
     }
 }
