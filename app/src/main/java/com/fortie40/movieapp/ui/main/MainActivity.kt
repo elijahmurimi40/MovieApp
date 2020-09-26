@@ -6,19 +6,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
-import com.fortie40.movieapp.ID_TITLE
-import com.fortie40.movieapp.R
-import com.fortie40.movieapp.TYPE_OF_MOVIE
+import com.fortie40.movieapp.*
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MainRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityMainBinding
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
+import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.ui.list.ListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), IClickListener {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var adapter: MainAdapter
 
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             this.viewModel = viewModel
         }
 
-        adapter = MainAdapter()
+        adapter = MainAdapter(this)
         recycler_view_main.adapter = adapter
 
         val response: MutableList<MovieResponse?> = arrayListOf()
@@ -67,16 +66,19 @@ class MainActivity : AppCompatActivity() {
             if (it == NetworkState.LOADED) {
                 movieListPage()
             }
-        })
 
-        viewAllClick()
+            if (!viewModel.listIsEmpty())
+                adapter.setNetWorkState(it)
+        })
     }
 
-    private fun viewAllClick() {
-//        activityMain2Binding.popular.setOnClickListener { startListActivity(POPULAR) }
-//        activityMain2Binding.nowPlaying.setOnClickListener { startListActivity(NOW_PLAYING) }
-//        activityMain2Binding.upcoming.setOnClickListener { startListActivity(UPCOMING) }
-//        activityMain2Binding.topRated.setOnClickListener { startListActivity(TOP_RATED) }
+    override fun onMoreClick(title: String) {
+        when(title) {
+            getString(R.string.popular) -> startListActivity(POPULAR)
+            getString(R.string.now_playing) -> startListActivity(NOW_PLAYING)
+            getString(R.string.upcoming) -> startListActivity(UPCOMING)
+            getString(R.string.top_rated) -> startListActivity(TOP_RATED)
+        }
     }
 
     private fun startListActivity(value: String) {

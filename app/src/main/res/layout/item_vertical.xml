@@ -7,6 +7,10 @@
         <variable
             name="movieResponse"
             type="com.fortie40.movieapp.data.models.MovieResponse" />
+
+        <variable
+            name="iClickListener"
+            type="com.fortie40.movieapp.interfaces.IClickListener" />
     </data>
 
     <LinearLayout
@@ -32,32 +36,42 @@
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:text="@{movieResponse.title}"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:ignore="RelativeOverlap" />
 
-            <ImageView
-                android:id="@+id/see_more"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/more"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:foregroundGravity="center_vertical"
-                app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+                tools:ignore="RelativeOverlap"
+                android:background="@drawable/background_selector_main"
+                android:onClick="@{() -> iClickListener.onMoreClick(movieResponse.title)}">
 
-            <TextView
-                android:id="@+id/movie_more_items"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more"
-                android:textSize="18sp"
-                android:layout_toLeftOf="@id/see_more"
-                android:layout_toStartOf="@id/see_more"
-                android:paddingRight="4dp"
-                android:paddingEnd="4dp"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                tools:ignore="RelativeOverlap,RtlSymmetry" />
+                <TextView
+                    android:id="@+id/movie_more_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/see_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:contentDescription="@string/more"
+                    app:layout_constraintBottom_toBottomOf="@+id/movie_more_items"
+                    app:layout_constraintStart_toEndOf="@+id/movie_more_items"
+                    app:layout_constraintTop_toTopOf="@+id/movie_more_items"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -67,6 +81,7 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             tools:listitem="@layout/item_horizontal"
-            app:setUpLinearLayout="@{2}" />
+            app:setUpLinearLayout="@{2}"
+            app:setData="@{movieResponse.movieList}"/>
     </LinearLayout>
 </layout>

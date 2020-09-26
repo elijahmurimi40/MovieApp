@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.helperclasses.HelperFunctions
+import com.fortie40.movieapp.interfaces.IClickListener
 
 class MainViewHolder private constructor(private val binding: ViewDataBinding):
     RecyclerView.ViewHolder(binding.root) {
@@ -18,8 +19,9 @@ class MainViewHolder private constructor(private val binding: ViewDataBinding):
         }
     }
 
-    fun bind(movieResponse: MovieResponse) {
+    fun bind(movieResponse: MovieResponse, iClickListener: IClickListener) {
         binding.setVariable(BR.movieResponse, movieResponse)
+        binding.setVariable(BR.iClickListener, iClickListener)
         binding.executePendingBindings()
     }
 }

@@ -11,8 +11,21 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.helperclasses.*
 import com.fortie40.movieapp.ui.list.ListActivityAdapter
+import com.fortie40.movieapp.ui.main.ItemAdapter
 
 private var adapter: ListActivityAdapter? = null
+private var itemAdapter: ItemAdapter? = null
+
+private fun addOnScrollListener(rv: RecyclerView) {
+    rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                rv.invalidateItemDecorations()
+            }
+        }
+    })
+}
 
 private fun setUpAdapter(context: Context) {
     if (adapter == null)
@@ -24,20 +37,18 @@ private fun tearDownAdapter(rv: RecyclerView) {
     adapter = null
 }
 
+private fun setUpItemAdapter(movies: List<Movie>) {
+    if (itemAdapter == null)
+        itemAdapter = ItemAdapter(movies)
+}
+
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
     val layoutManager = MovieListStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
     rv.invalidateItemDecorations()
     rv.addItemDecoration(ItemDecorationMovieListColumns(rv.context, spanCount))
-    rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                rv.invalidateItemDecorations()
-            }
-        }
-    })
+    addOnScrollListener(rv)
     rv.layoutManager = layoutManager
 }
 
@@ -100,6 +111,14 @@ fun setUpLinearLayout(rv: RecyclerView, type: Int) {
             rv.layoutManager = MovieLinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
+    addOnScrollListener(rv)
+}
+
+@BindingAdapter("setData")
+fun setData(rv: RecyclerView, movies: List<Movie>) {
+    setUpItemAdapter(movies)
+    rv.adapter = itemAdapter
+    itemAdapter?.submitList(movies)
 }
 
 @BindingAdapter(value = ["listIsEmptyM", "setVisibilityM"], requireAll = true)
