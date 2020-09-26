@@ -67,7 +67,6 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             tools:listitem="@layout/item_horizontal"
-            app:setUpLinearLayout="@{2}"
-            app:setData="@{movieResponse.movieList}"/>
+            app:setUpLinearLayout="@{2}" />
     </LinearLayout>
 </layout>

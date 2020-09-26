@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.helperclasses.*
 import com.fortie40.movieapp.ui.list.ListActivityAdapter
-import com.fortie40.movieapp.ui.main.ItemAdapter
 
 private var adapter: ListActivityAdapter? = null
 
@@ -87,8 +86,8 @@ fun setVisibility(view: View, listIsEmpty: Boolean, networkState: NetworkState?)
     }
 }
 
-@BindingAdapter(value = ["setUpLinearLayout", "setData"], requireAll = true)
-fun setUpLinearLayout(rv: RecyclerView, type: Int, movies: List<Movie>) {
+@BindingAdapter("setUpLinearLayout")
+fun setUpLinearLayout(rv: RecyclerView, type: Int) {
     rv.setHasFixedSize(true)
     rv.invalidateItemDecorations()
     when (type) {
@@ -99,9 +98,28 @@ fun setUpLinearLayout(rv: RecyclerView, type: Int, movies: List<Movie>) {
         else -> {
             rv.addItemDecoration(ItemDecorationHorizontal(rv.context))
             rv.layoutManager = MovieLinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
-            val adapter = ItemAdapter(movies)
-            rv.adapter = adapter
-            adapter.submitList(movies)
+        }
+    }
+}
+
+@BindingAdapter(value = ["listIsEmptyM", "setVisibilityM"], requireAll = true)
+fun setVisibilityMain(view: View, listIsEmpty: Boolean, networkState: NetworkState?) {
+    networkState.let {
+        when (view) {
+            is ProgressBar -> {
+                if (listIsEmpty && it == NetworkState.LOADING)
+                    view.visibility = View.VISIBLE
+                else {
+                    view.visibility = View.GONE
+                }
+            }
+            else -> {
+                if (listIsEmpty && it == NetworkState.ERROR)
+                    view.visibility = View.VISIBLE
+                else {
+                    view.visibility = View.GONE
+                }
+            }
         }
     }
 }

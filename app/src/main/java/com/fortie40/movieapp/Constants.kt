@@ -44,3 +44,6 @@ const val MOVIE_VIEW_HORIZONTAL = 2
 
 // show button end list horizontal
 const val VIEW_ALL_HORIZONTAL = 1
+
+// id in main activity title
+const val ID_TITLE = "id_title"
