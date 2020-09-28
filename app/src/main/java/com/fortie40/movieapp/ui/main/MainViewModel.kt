@@ -8,9 +8,10 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import retrofit2.Call
 
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
-
-    val movies: LiveData<List<MovieResponse?>> by lazy {
-        mainRepository.fetchMovies()
+    private var movieList: LiveData<List<MovieResponse?>>? = null
+    fun movies(movies: Call<MovieResponse>): LiveData<List<MovieResponse?>> {
+        movieList = mainRepository.fetchMovies(movies)
+        return movieList as LiveData<List<MovieResponse?>>
     }
 
     val networkState: LiveData<NetworkState> by lazy {
@@ -18,10 +19,6 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     }
 
     fun listIsEmpty(): Boolean {
-        return movies.value?.isEmpty() ?: true
-    }
-
-    fun getMoviesNext(movies: Call<MovieResponse>) {
-        mainRepository.fetchMoviesNext(movies)
+        return movieList?.value?.isEmpty() ?: true
     }
 }

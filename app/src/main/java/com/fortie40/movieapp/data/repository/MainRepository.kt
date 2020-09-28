@@ -5,27 +5,22 @@ import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.helperclasses.NetworkState
 import retrofit2.Call
 
-class MainRepository(private val movies: (Int) -> Call<MovieResponse>) {
+class MainRepository {
     private lateinit var mainDataSource: MainDataSource
 
     private fun init() {
         if (!this::mainDataSource.isInitialized)
-            mainDataSource = MainDataSource(movies)
+            mainDataSource = MainDataSource()
     }
 
-    fun fetchMovies(): LiveData<List<MovieResponse?>> {
+    fun fetchMovies(movies: Call<MovieResponse>): LiveData<List<MovieResponse?>> {
         init()
-        mainDataSource.fetchMovies()
+        mainDataSource.fetchMovies(movies)
         return mainDataSource.movieResponse
     }
 
     fun getNetworkState(): LiveData<NetworkState> {
         init()
         return mainDataSource.networkState
-    }
-
-    fun fetchMoviesNext(movies: Call<MovieResponse>) {
-        init()
-        mainDataSource.fetchMoviesNext(movies)
     }
 }

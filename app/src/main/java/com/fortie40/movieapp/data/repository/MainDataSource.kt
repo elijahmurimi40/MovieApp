@@ -8,7 +8,7 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import retrofit2.Call
 import retrofit2.Response
 
-class MainDataSource(private val movies: (Int) -> Call<MovieResponse>) {
+class MainDataSource {
     private val _networkState = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
         get() = _networkState
@@ -24,12 +24,7 @@ class MainDataSource(private val movies: (Int) -> Call<MovieResponse>) {
         _networkState.postValue(NetworkState.LOADED)
     }
 
-    fun fetchMovies() {
-        _networkState.postValue(NetworkState.LOADING)
-        movies.invoke(1).enqueueCallBack(_networkState, ::success)
-    }
-
-    fun fetchMoviesNext(movies: Call<MovieResponse>) {
+    fun fetchMovies(movies: Call<MovieResponse>) {
         _networkState.postValue(NetworkState.LOADING)
         movies.enqueueCallBack(_networkState, ::success)
     }

@@ -14,7 +14,6 @@ import com.fortie40.movieapp.ui.list.ListActivityAdapter
 import com.fortie40.movieapp.ui.main.ItemAdapter
 
 private var adapter: ListActivityAdapter? = null
-private var itemAdapter: ItemAdapter? = null
 
 private fun addOnScrollListener(rv: RecyclerView) {
     rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -35,11 +34,6 @@ private fun setUpAdapter(context: Context) {
 private fun tearDownAdapter(rv: RecyclerView) {
     rv.adapter = null
     adapter = null
-}
-
-private fun setUpItemAdapter(movies: List<Movie>) {
-    if (itemAdapter == null)
-        itemAdapter = ItemAdapter(movies)
 }
 
 @BindingAdapter("setLayoutManager")
@@ -116,9 +110,9 @@ fun setUpLinearLayout(rv: RecyclerView, type: Int) {
 
 @BindingAdapter("setData")
 fun setData(rv: RecyclerView, movies: List<Movie>) {
-    setUpItemAdapter(movies)
+    val itemAdapter = ItemAdapter(movies)
     rv.adapter = itemAdapter
-    itemAdapter?.submitList(movies)
+    itemAdapter.submitList(movies)
 }
 
 @BindingAdapter(value = ["listIsEmptyM", "setVisibilityM"], requireAll = true)
