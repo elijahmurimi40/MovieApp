@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity(), IClickListener {
 
     private lateinit var mainRepository: MainRepository
     private lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: MainViewModel
     private lateinit var callMovieResponse: Call<MovieResponse>
 
     private var id: Int = 1
+    private val response: MutableList<MovieResponse?> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -36,14 +36,17 @@ class MainActivity : AppCompatActivity(), IClickListener {
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        if (savedInstanceState != null)
-            id = savedInstanceState.getInt(ID_TITLE, 1)
+        savedInstanceState?.run {
+            id = getInt(ID_TITLE, 0) + 1
+            val mr = getParcelableArrayList<MovieResponse>(RESPONSE_ARRAY) as List<MovieResponse>
+            response.clear()
+            response.addAll(mr)
+        }
         setCallMovieResponse(id)
 
         mainRepository = MainRepository()
         viewModelFactory = ViewModelFactory(mainRepository)
         val viewModel: MainViewModel by viewModels { viewModelFactory }
-        this.viewModel = viewModel
 
         activityMainBinding.apply {
             this.lifecycleOwner = this@MainActivity
@@ -53,25 +56,34 @@ class MainActivity : AppCompatActivity(), IClickListener {
         adapter = MainAdapter(this)
         recycler_view_main.adapter = adapter
 
-        val response: MutableList<MovieResponse?> = arrayListOf()
-        viewModel.movies(callMovieResponse).observe(this, {
-            it.map { mr ->
-                setTitle(mr)
-            }
-            response.addAll(it)
+        if (id > NUMBER_OF_REQUEST) {
             adapter.submitList(response.toMutableList())
-        })
+        } else {
+            if (id > 1) {
+                adapter.submitList(response.toMutableList())
+            }
+            viewModel.movies(callMovieResponse).observe(this, {
+                it.map { mr ->
+                    setTitle(mr)
+                }
+
+                if (it.isNotEmpty()) {
+                    response.addAll(it)
+                    id += 1
+                }
+                adapter.submitList(response.toMutableList())
+            })
+        }
 
         viewModel.networkState.observe(this, {
             if (it == NetworkState.LOADED) {
-                id += 1
-                if (id <= 4) {
+                if (id <= NUMBER_OF_REQUEST) {
                     setCallMovieResponse(id)
                     viewModel.movies(callMovieResponse)
                 }
             }
 
-            if (!viewModel.listIsEmpty())
+            if (viewModel.listIsEmpty())
                 adapter.setNetWorkState(it)
         })
         //data()
@@ -97,6 +109,18 @@ class MainActivity : AppCompatActivity(), IClickListener {
         p.add(MovieResponse("Movie2", 2, 1, 1, 1, m2))
         p.add(MovieResponse("Movie3", 3, 1, 1, 1, m3))
         adapter.submitList(p)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (response.isNotEmpty()) {
+            val lastMovieResponse = adapter.currentList
+            val lastId = lastMovieResponse[lastMovieResponse.size - 1].id
+            outState.run {
+                putInt(ID_TITLE, lastId)
+                putParcelableArrayList(RESPONSE_ARRAY, ArrayList<MovieResponse>(lastMovieResponse))
+            }
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onMoreClick(title: String) {

@@ -47,3 +47,9 @@ const val VIEW_ALL_HORIZONTAL = 1
 
 // id in main activity title
 const val ID_TITLE = "id_title"
+
+// main requests to be made
+const val NUMBER_OF_REQUEST = 4
+
+// save main array to bundle
+const val RESPONSE_ARRAY = "response_array"
