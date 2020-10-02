@@ -115,19 +115,19 @@ fun setData(rv: RecyclerView, movies: List<Movie>) {
     itemAdapter.submitList(movies)
 }
 
-@BindingAdapter(value = ["listIsEmptyM", "setVisibilityM"], requireAll = true)
-fun setVisibilityMain(view: View, listIsEmpty: Boolean, networkState: NetworkState?) {
+@BindingAdapter(value = ["listIsEmptyM", "setVisibilityM", "setIdM"], requireAll = true)
+fun setVisibilityMain(view: View, listIsEmpty: Boolean, networkState: NetworkState?, id: Int) {
     networkState.let {
         when (view) {
             is ProgressBar -> {
-                if (listIsEmpty && it == NetworkState.LOADING)
+                if (listIsEmpty && it == NetworkState.LOADING && id <= 1)
                     view.visibility = View.VISIBLE
                 else {
                     view.visibility = View.GONE
                 }
             }
             else -> {
-                if (listIsEmpty && it == NetworkState.ERROR)
+                if (listIsEmpty && it == NetworkState.ERROR && id <= 1)
                     view.visibility = View.VISIBLE
                 else {
                     view.visibility = View.GONE

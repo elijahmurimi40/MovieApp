@@ -8,6 +8,7 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import retrofit2.Call
 
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
+    var id: Int = 1
     private var movieList: LiveData<List<MovieResponse?>>? = null
     fun movies(movies: Call<MovieResponse>): LiveData<List<MovieResponse?>> {
         movieList = mainRepository.fetchMovies(movies)

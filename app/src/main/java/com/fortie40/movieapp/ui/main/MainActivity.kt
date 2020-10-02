@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), IClickListener {
         mainRepository = MainRepository()
         viewModelFactory = ViewModelFactory(mainRepository)
         val viewModel: MainViewModel by viewModels { viewModelFactory }
+        viewModel.id = id
 
         activityMainBinding.apply {
             this.lifecycleOwner = this@MainActivity
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity(), IClickListener {
                 }
             }
 
-            if (viewModel.listIsEmpty())
+            if (!viewModel.listIsEmpty() || id > 1)
                 adapter.setNetWorkState(it)
         })
         //data()
@@ -119,6 +120,7 @@ class MainActivity : AppCompatActivity(), IClickListener {
                 putInt(ID_TITLE, lastId)
                 putParcelableArrayList(RESPONSE_ARRAY, ArrayList<MovieResponse>(lastMovieResponse))
             }
+            viewModelStore.clear()
         }
         super.onSaveInstanceState(outState)
     }
