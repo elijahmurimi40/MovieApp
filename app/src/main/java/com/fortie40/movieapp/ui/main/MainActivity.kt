@@ -6,17 +6,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.*
-import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MainRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityMainBinding
+import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.ui.list.ListActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 
 class MainActivity : AppCompatActivity(), IClickListener {
@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity(), IClickListener {
     private lateinit var mainRepository: MainRepository
     private lateinit var viewModelFactory: ViewModelFactory
     private lateinit var callMovieResponse: Call<MovieResponse>
+
+    private lateinit var recyclerViewMain: RecyclerView
 
     private var id: Int = 1
     private val response: MutableList<MovieResponse?> = arrayListOf()
@@ -53,9 +55,9 @@ class MainActivity : AppCompatActivity(), IClickListener {
             this.lifecycleOwner = this@MainActivity
             this.viewModel = viewModel
         }
-
         adapter = MainAdapter(this)
-        recycler_view_main.adapter = adapter
+        recyclerViewMain = activityMainBinding.recyclerViewMain
+        recyclerViewMain.adapter = adapter
 
         if (id > NUMBER_OF_REQUEST) {
             adapter.submitList(response.toMutableList())
@@ -87,40 +89,40 @@ class MainActivity : AppCompatActivity(), IClickListener {
             if (!viewModel.listIsEmpty() || id > 1)
                 adapter.setNetWorkState(it)
         })
-        //data()
     }
 
-    private fun data() {
-        val m1 = arrayListOf<Movie>()
-        val m2 = arrayListOf<Movie>()
-        val m3 = arrayListOf<Movie>()
-
-        for (i in 1..5) {
-            m1.add(Movie(i, "movie$i", "", "", "", 1))
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.run {
+            val positionIndex = getInt(POSITION_INDEX, -1)
+            val offset = getInt(OFFSET)
+            if (positionIndex != -1) {
+                (recyclerViewMain.layoutManager as MovieLinearLayoutManager)
+                    .scrollToPositionWithOffset(positionIndex, offset)
+            }
         }
-        for (i in 1..5) {
-            m2.add(Movie(i, "kdf$i", "", "", "", 1))
-        }
-        for (i in 1..5) {
-            m3.add(Movie(i, "kula kula$i", "", "", "", 1))
-        }
-
-        val p = arrayListOf<MovieResponse>()
-        p.add(MovieResponse("Movie1", 1, 1, 1, 1, m1))
-        p.add(MovieResponse("Movie2", 2, 1, 1, 1, m2))
-        p.add(MovieResponse("Movie3", 3, 1, 1, 1, m3))
-        adapter.submitList(p)
+        adapter.onRestoreInstanceState(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         if (response.isNotEmpty()) {
             val lastMovieResponse = adapter.currentList
             val lastId = lastMovieResponse[lastMovieResponse.size - 1].id
+
+            val layoutManager =
+                (recyclerViewMain.layoutManager as MovieLinearLayoutManager)
+            val startView = recyclerViewMain.getChildAt(0)
+            val positionIndex = layoutManager.findFirstVisibleItemPosition()
+            val offSet = if (startView == null) 0 else startView.top - recyclerViewMain.top
+
             outState.run {
                 putInt(ID_TITLE, lastId)
                 putParcelableArrayList(RESPONSE_ARRAY, ArrayList<MovieResponse>(lastMovieResponse))
+                putInt(POSITION_INDEX, positionIndex)
+                putInt(OFFSET, offSet)
             }
             viewModelStore.clear()
+            adapter.onSaveInstanceState(outState)
         }
         super.onSaveInstanceState(outState)
     }

@@ -6,6 +6,7 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.models.MovieResponse
+import com.fortie40.movieapp.databinding.ItemVerticalBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
 import com.fortie40.movieapp.interfaces.IClickListener
 
@@ -18,6 +19,8 @@ class MainViewHolder private constructor(private val binding: ViewDataBinding):
             return MainViewHolder(viewDataBinding)
         }
     }
+
+    val rv = (binding as ItemVerticalBinding).recyclerViewItems
 
     fun bind(movieResponse: MovieResponse, iClickListener: IClickListener) {
         binding.setVariable(BR.movieResponse, movieResponse)

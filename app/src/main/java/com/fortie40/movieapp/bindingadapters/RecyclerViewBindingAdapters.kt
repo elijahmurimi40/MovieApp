@@ -5,9 +5,7 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.*
 import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.helperclasses.*
 import com.fortie40.movieapp.ui.list.ListActivityAdapter
@@ -103,6 +101,8 @@ fun setUpLinearLayout(rv: RecyclerView, type: Int) {
         else -> {
             rv.addItemDecoration(ItemDecorationHorizontal(rv.context))
             rv.layoutManager = MovieLinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(rv)
         }
     }
     addOnScrollListener(rv)

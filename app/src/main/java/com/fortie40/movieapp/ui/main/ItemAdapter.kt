@@ -1,5 +1,7 @@
 package com.fortie40.movieapp.ui.main
 
+import android.app.Activity
+import android.util.DisplayMetrics
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +12,16 @@ import com.fortie40.movieapp.helperclasses.MovieDiffCallback
 
 class ItemAdapter(private val movies: List<Movie>) :
     ListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
+    private var screenWidth = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            MOVIE_VIEW_HORIZONTAL -> ItemViewHolder.createItemViewHolder(parent)
+            MOVIE_VIEW_HORIZONTAL -> {
+                val displayMetrics = DisplayMetrics()
+                (parent.context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+                screenWidth = displayMetrics.widthPixels
+                ItemViewHolder.createItemViewHolder(parent)
+            }
             else -> ItemViewAllViewHolder.createItemViewAllViewHolder(parent)
         }
     }
@@ -20,7 +29,7 @@ class ItemAdapter(private val movies: List<Movie>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position != movies.size) {
             val movie = getItem(position)
-            (holder as ItemViewHolder).bind(movie)
+            (holder as ItemViewHolder).bind(movie, screenWidth)
         }
     }
 

@@ -53,3 +53,10 @@ const val NUMBER_OF_REQUEST = 4
 
 // save main array to bundle
 const val RESPONSE_ARRAY = "response_array"
+
+// saving scroll position of vertical recyclerview
+const val POSITION_INDEX = "position_index"
+const val OFFSET = "off_set"
+
+// save recyclerview horizontal scroll position
+const val SCROLL_POSITION_HORIZONTAL = "scroll_position_horizontal"
