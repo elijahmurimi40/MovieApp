@@ -12,7 +12,7 @@ import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.helperclasses.MovieDiffCallback
 import com.fortie40.movieapp.interfaces.IClickListener
 
-class ItemAdapter(private val movies: List<Movie>, private val context: Context) :
+class ItemAdapter(private val movies: List<Movie>, private val context: Context, private val title: String) :
     ListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
     private var screenWidth = 0
 
@@ -32,6 +32,8 @@ class ItemAdapter(private val movies: List<Movie>, private val context: Context)
         if (position != movies.size) {
             val movie = getItem(position)
             (holder as ItemViewHolder).bind(movie, screenWidth, context as IClickListener)
+        } else {
+            (holder as ItemViewAllViewHolder).bind(screenWidth, context as IClickListener, title)
         }
     }
 

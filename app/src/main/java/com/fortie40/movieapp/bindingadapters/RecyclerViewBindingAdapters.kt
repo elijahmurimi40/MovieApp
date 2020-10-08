@@ -108,9 +108,9 @@ fun setUpLinearLayout(rv: RecyclerView, type: Int) {
     addOnScrollListener(rv)
 }
 
-@BindingAdapter("setData")
-fun setData(rv: RecyclerView, movies: List<Movie>) {
-    val itemAdapter = ItemAdapter(movies, rv.context)
+@BindingAdapter("setData", "setTitle", requireAll = false)
+fun setData(rv: RecyclerView, movies: List<Movie>, title: String) {
+    val itemAdapter = ItemAdapter(movies, rv.context, title)
     rv.adapter = itemAdapter
     itemAdapter.submitList(movies)
 }

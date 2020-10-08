@@ -82,6 +82,7 @@
             android:orientation="horizontal"
             tools:listitem="@layout/item_horizontal"
             app:setUpLinearLayout="@{2}"
-            app:setData="@{movieResponse.movieList}"/>
+            app:setData="@{movieResponse.movieList}"
+            app:setTitle="@{movieResponse.title}"/>
     </LinearLayout>
 </layout>
