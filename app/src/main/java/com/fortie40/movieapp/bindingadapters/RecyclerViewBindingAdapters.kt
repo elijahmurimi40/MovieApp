@@ -110,7 +110,7 @@ fun setUpLinearLayout(rv: RecyclerView, type: Int) {
 
 @BindingAdapter("setData")
 fun setData(rv: RecyclerView, movies: List<Movie>) {
-    val itemAdapter = ItemAdapter(movies)
+    val itemAdapter = ItemAdapter(movies, rv.context)
     rv.adapter = itemAdapter
     itemAdapter.submitList(movies)
 }

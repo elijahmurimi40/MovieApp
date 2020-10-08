@@ -16,6 +16,7 @@ import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.interfaces.IClickListener
+import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.list.ListActivity
 import retrofit2.Call
 
@@ -125,6 +126,12 @@ class MainActivity : AppCompatActivity(), IClickListener {
             adapter.onSaveInstanceState(outState)
         }
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onMovieClick(id: Int) {
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(MOVIE_ID, id)
+        startActivity(intent)
     }
 
     override fun onMoreClick(title: String) {

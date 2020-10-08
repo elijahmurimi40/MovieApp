@@ -8,6 +8,7 @@ import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.databinding.ItemHorizontalBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
+import com.fortie40.movieapp.interfaces.IClickListener
 
 class ItemViewHolder private constructor(private val binding: ViewDataBinding):
     RecyclerView.ViewHolder(binding.root) {
@@ -21,10 +22,11 @@ class ItemViewHolder private constructor(private val binding: ViewDataBinding):
 
     private val cardView = (binding as ItemHorizontalBinding).cardItem
 
-    fun bind(movie: Movie, width: Int = 0) {
+    fun bind(movie: Movie, width: Int = 0, mIClickListener: IClickListener) {
         val itemWidth = (width / 3.33) - 9
         cardView.layoutParams.width = itemWidth.toInt()
         binding.setVariable(BR.movieItem, movie)
+        binding.setVariable(BR.mIClickListener, mIClickListener)
         binding.executePendingBindings()
     }
 }
