@@ -2,16 +2,17 @@ package com.fortie40.movieapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.*
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MainRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityMainBinding
+import com.fortie40.movieapp.helperclasses.HelperFunctions
 import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), IClickListener {
 
     private lateinit var mainRepository: MainRepository
     private lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: MainViewModel
     private lateinit var callMovieResponse: Call<MovieResponse>
 
     private lateinit var recyclerViewMain: RecyclerView
@@ -49,12 +51,12 @@ class MainActivity : AppCompatActivity(), IClickListener {
 
         mainRepository = MainRepository()
         viewModelFactory = ViewModelFactory(mainRepository)
-        val viewModel: MainViewModel by viewModels { viewModelFactory }
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MAIN_ACTIVITY_KEY, MainViewModel::class.java)
         viewModel.id = id
 
         activityMainBinding.apply {
             this.lifecycleOwner = this@MainActivity
-            this.viewModel = viewModel
+            this.viewModel = this@MainActivity.viewModel
         }
         adapter = MainAdapter(this)
         recyclerViewMain = activityMainBinding.recyclerViewMain
@@ -122,7 +124,7 @@ class MainActivity : AppCompatActivity(), IClickListener {
                 putInt(POSITION_INDEX, positionIndex)
                 putInt(OFFSET, offSet)
             }
-            viewModelStore.clear()
+            HelperFunctions.clearViewModel(this, MAIN_ACTIVITY_KEY)
             adapter.onSaveInstanceState(outState)
         }
         super.onSaveInstanceState(outState)

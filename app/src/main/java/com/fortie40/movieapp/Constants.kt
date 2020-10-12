@@ -60,3 +60,6 @@ const val OFFSET = "off_set"
 
 // save recyclerview horizontal scroll position
 const val SCROLL_POSITION_HORIZONTAL = "scroll_position_horizontal"
+
+// view model key main activity
+const val MAIN_ACTIVITY_KEY = "main_activity_key"
