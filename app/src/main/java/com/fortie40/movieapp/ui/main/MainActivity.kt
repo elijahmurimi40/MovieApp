@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity(), IClickListener {
 
     private var id: Int = 1
     private val response: MutableList<MovieResponse?> = arrayListOf()
+    private var moviesHasObservers = false
+    private var isRequesting = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -62,9 +64,9 @@ class MainActivity : AppCompatActivity(), IClickListener {
         recyclerViewMain = activityMainBinding.recyclerViewMain
         recyclerViewMain.adapter = adapter
 
-        if (id > NUMBER_OF_REQUEST) {
-            adapter.submitList(response.toMutableList())
-        } else {
+        val moviesObserver = {
+            moviesHasObservers = true
+            isRequesting = true
             if (id > 1) {
                 adapter.submitList(response.toMutableList())
             }
@@ -81,17 +83,45 @@ class MainActivity : AppCompatActivity(), IClickListener {
             })
         }
 
+        if (id > NUMBER_OF_REQUEST) {
+            adapter.submitList(response.toMutableList())
+            isRequesting = false
+        } else {
+            moviesObserver()
+        }
+
         viewModel.networkState.observe(this, {
             if (it == NetworkState.LOADED) {
                 if (id <= NUMBER_OF_REQUEST) {
                     setCallMovieResponse(id)
                     viewModel.movies(callMovieResponse)
+                } else {
+                    isRequesting = false
+                    activityMainBinding.swipeToRefresh.isRefreshing = false
                 }
             }
 
             if (!viewModel.listIsEmpty() || id > 1)
                 adapter.setNetWorkState(it)
         })
+
+        activityMainBinding.swipeToRefresh.setOnRefreshListener {
+            if (isRequesting) return@setOnRefreshListener
+            isRequesting = true
+            response.clear()
+            id = 1
+            viewModel.id = id
+            setCallMovieResponse(id)
+            if (moviesHasObservers) {
+                adapter.submitList(response.toMutableList())
+                viewModel.movies(callMovieResponse)
+                activityMainBinding.swipeToRefresh.isRefreshing = false
+            } else {
+                adapter.submitList(response.toMutableList())
+                moviesObserver()
+                activityMainBinding.swipeToRefresh.isRefreshing = false
+            }
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
