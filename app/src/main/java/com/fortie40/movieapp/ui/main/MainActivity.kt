@@ -99,6 +99,9 @@ class MainActivity : AppCompatActivity(), IClickListener {
                     isRequesting = false
                     activityMainBinding.swipeToRefresh.isRefreshing = false
                 }
+            } else if (it == NetworkState.ERROR) {
+                isRequesting = false
+                activityMainBinding.swipeToRefresh.isRefreshing = false
             }
 
             if (!viewModel.listIsEmpty() || id > 1)
