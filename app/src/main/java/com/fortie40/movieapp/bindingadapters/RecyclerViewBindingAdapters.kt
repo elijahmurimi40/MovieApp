@@ -24,7 +24,7 @@ private fun addOnScrollListener(rv: RecyclerView) {
     })
 }
 
-private fun setUpAdapter(context: Context) {
+@Synchronized private fun setUpAdapter(context: Context) {
     if (adapter == null)
         adapter = ListActivityAdapter(context)
 }
@@ -36,21 +36,13 @@ private fun tearDownAdapter(rv: RecyclerView) {
 
 @BindingAdapter("setLayoutManager")
 fun setLayoutManager(rv: RecyclerView, spanCount: Int) {
+    setUpAdapter(rv.context)
     val layoutManager = MovieListStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
     layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
     rv.invalidateItemDecorations()
     rv.addItemDecoration(ItemDecorationMovieListColumns(rv.context, spanCount))
     addOnScrollListener(rv)
     rv.layoutManager = layoutManager
-}
-
-@BindingAdapter("setAdapter")
-fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
-    setUpAdapter(rv.context)
-    data.let {
-        adapter!!.submitList(it)
-    }
-
     rv.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
         override fun onViewDetachedFromWindow(v: View?) {
             tearDownAdapter(rv)
@@ -61,6 +53,14 @@ fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
             rv.adapter = adapter
         }
     })
+}
+
+@BindingAdapter("setAdapter")
+fun setAdapter(rv: RecyclerView, data: PagedList<Movie>?) {
+    setUpAdapter(rv.context)
+    data.let {
+        adapter!!.submitList(it)
+    }
 }
 
 @BindingAdapter(value = ["listIsEmpty", "setVisibility"], requireAll = true)

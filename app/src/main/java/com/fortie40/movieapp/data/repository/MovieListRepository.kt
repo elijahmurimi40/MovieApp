@@ -10,14 +10,11 @@ import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 
-class MovieListRepository(private val moviesPage: (Int) -> Call<MovieResponse>) {
+class MovieListRepository(moviesPage: (Int) -> Call<MovieResponse>) {
+    private val movieListDataSourceFactory: MovieListDataSourceFactory = MovieListDataSourceFactory(moviesPage)
     private lateinit var moviePagedList: LiveData<PagedList<Movie>>
-    private lateinit var movieListDataSourceFactory: MovieListDataSourceFactory
 
     fun fetchLiveMoviePagedList(): LiveData<PagedList<Movie>> {
-        if (!this::movieListDataSourceFactory.isInitialized)
-            movieListDataSourceFactory = MovieListDataSourceFactory(moviesPage)
-
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(POST_PER_PAGE)
@@ -28,9 +25,6 @@ class MovieListRepository(private val moviesPage: (Int) -> Call<MovieResponse>) 
     }
 
     fun getNetworkState(): LiveData<NetworkState> {
-        if (!this::movieListDataSourceFactory.isInitialized)
-            movieListDataSourceFactory = MovieListDataSourceFactory(moviesPage)
-
         return Transformations.switchMap<MovieListDataSource, NetworkState>(
             movieListDataSourceFactory.movieLiveListDataSource, MovieListDataSource::networkState
         )
