@@ -92,4 +92,8 @@ class MainAdapter(private val context: Context):
     fun onSaveInstanceState(outState: Bundle) {
         outState.putSerializable(SCROLL_POSITION_HORIZONTAL, scrollState)
     }
+
+    fun resetScrollState() {
+        scrollState.clear()
+    }
 }

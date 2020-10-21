@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity(), IClickListener {
             if (isRequesting) return@setOnRefreshListener
             isRequesting = true
             response.clear()
+            adapter.resetScrollState()
             id = 1
             viewModel.id = id
             setCallMovieResponse(id)
