@@ -5,6 +5,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
+import com.fortie40.movieapp.CURRENT_PAGE
 import com.fortie40.movieapp.MOVIE_ID
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
@@ -19,6 +21,11 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var movieDetailsRepository: MovieDetailsRepository
     private lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var pager: ViewPager
+
+    companion object {
+        const val DEFAULT_PAGE = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -29,7 +36,7 @@ class DetailsActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        setUpTabLayout()
+        setUpTabLayout(savedInstanceState)
 
         val movieId = intent.getIntExtra(MOVIE_ID, 605116)
 
@@ -49,9 +56,23 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpTabLayout() {
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.run {
+            putInt(CURRENT_PAGE, pager.currentItem)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onBackPressed() {
+        if (pager.currentItem != DEFAULT_PAGE)
+            pager.currentItem = DEFAULT_PAGE
+        else
+            super.onBackPressed()
+    }
+
+    private fun setUpTabLayout(savedInstanceState: Bundle?) {
         val tabLayout = activityDetailsBinding.tabLayout
-        val pager = activityDetailsBinding.pager
+        pager = activityDetailsBinding.pager
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.overview))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.trailers))
@@ -67,5 +88,13 @@ class DetailsActivity : AppCompatActivity() {
                 pager.currentItem = tab!!.position
             }
         })
+
+        if (savedInstanceState == null)
+            pager.currentItem = DEFAULT_PAGE
+
+        savedInstanceState?.run {
+            val page = getInt(CURRENT_PAGE)
+            pager.currentItem = page
+        }
     }
 }

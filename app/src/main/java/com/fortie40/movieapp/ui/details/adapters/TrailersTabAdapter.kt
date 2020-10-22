@@ -17,6 +17,7 @@ class TrailersTabAdapter(private val youTubePlayerView: (YouTubePlayerView) -> U
 
     override fun onBindViewHolder(holder: TrailersTabViewHolder, position: Int) {
         val video = getItem(position)
-        holder.bind(video, youTubePlayerView, openTrailer)
+        if (!video.key.isBlank())
+            holder.bind(video, youTubePlayerView, openTrailer)
     }
 }

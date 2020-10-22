@@ -63,3 +63,6 @@ const val SCROLL_POSITION_HORIZONTAL = "scroll_position_horizontal"
 
 // view model key main activity
 const val MAIN_ACTIVITY_KEY = "main_activity_key"
+
+// saving current tab in DetailsActivity
+const val CURRENT_PAGE = "current_page"

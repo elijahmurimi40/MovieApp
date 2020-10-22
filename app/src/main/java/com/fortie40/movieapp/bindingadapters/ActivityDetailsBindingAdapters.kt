@@ -66,6 +66,11 @@ fun setUpDetails(iv: ImageView, movieDetails: MovieDetails?) {
     movieDetails.let {
         if (it != null)
             setImageDetails(iv, it.posterPath)
+        else {
+            iv.layoutParams.height = 0
+            iv.scaleType = ImageView.ScaleType.CENTER
+            iv.setImageResource(R.drawable.place_holder)
+        }
     }
 }
 
@@ -84,9 +89,11 @@ fun setTextDateRunTime(tv: TextView, movieDetails: MovieDetails?) {
 
 // OverviewTabBindingAdapters
 @BindingAdapter("setUpImage")
-fun p(iv: ImageView, path: String?) {
+fun setUpImage(iv: ImageView, path: String?) {
     path.let {
         if (it != null)
             setImage(iv, it)
+        else
+            iv.setImageResource(android.R.color.transparent)
     }
 }
