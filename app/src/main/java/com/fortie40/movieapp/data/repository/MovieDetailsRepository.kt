@@ -10,13 +10,19 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 class MovieDetailsRepository(private val itmDbMovies: () -> ITMDbMovies) {
     private val movieDetailsDataSource: MovieDetailsDataSource = MovieDetailsDataSource(this.itmDbMovies)
 
+    companion object {
+        var load = true
+    }
+
     fun fetchMovieDetails(movieId: Integer): LiveData<MovieDetails> {
-        movieDetailsDataSource.fetchMovieDetails(movieId)
+        if (load)
+            movieDetailsDataSource.fetchMovieDetails(movieId)
         return movieDetailsDataSource.movieDetailsResponse
     }
 
     fun fetchMovieVideos(movieId: Integer): LiveData<List<Video>> {
-        movieDetailsDataSource.fetchMovieVideos(movieId)
+        if (load)
+            movieDetailsDataSource.fetchMovieVideos(movieId)
         return movieDetailsDataSource.video
     }
 

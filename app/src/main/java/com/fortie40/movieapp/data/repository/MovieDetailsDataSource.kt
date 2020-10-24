@@ -12,7 +12,7 @@ import retrofit2.Response
 
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 class MovieDetailsDataSource(private val itmDbMovies: () -> ITMDbMovies) {
-    private val _networkState = MutableLiveData<NetworkState>()
+    private val _networkState = MutableLiveData(NetworkState.LOADED)
     val networkState: LiveData<NetworkState>
         get() = _networkState
 

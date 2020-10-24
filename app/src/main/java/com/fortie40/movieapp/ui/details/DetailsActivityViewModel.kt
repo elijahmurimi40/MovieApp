@@ -10,28 +10,14 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 
 class DetailsActivityViewModel(
     private val movieDetailsRepository: MovieDetailsRepository,
-    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") private val movieId: Integer) : ViewModel() {
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") movieId: Integer) : ViewModel() {
 
-    private var load = true
-    var movieDetails: MutableLiveData<MovieDetails>
-    var movieVideos: MutableLiveData<List<Video>>
-    init {
-        movieDetails = fetchMovieDetails()
-        movieVideos = fetchMovieVideos()
+    val movieDetails: MutableLiveData<MovieDetails> by lazy {
+        movieDetailsRepository.fetchMovieDetails(movieId) as MutableLiveData
     }
 
-    private fun fetchMovieDetails(): MutableLiveData<MovieDetails> {
-        var movieDetails = MutableLiveData<MovieDetails>()
-        if (load)
-            movieDetails = movieDetailsRepository.fetchMovieDetails(movieId) as MutableLiveData
-        return movieDetails
-    }
-
-    private fun fetchMovieVideos(): MutableLiveData<List<Video>> {
-        var movieVideos = MutableLiveData<List<Video>>()
-        if (load)
-            movieVideos = movieDetailsRepository.fetchMovieVideos(movieId) as MutableLiveData<List<Video>>
-        return movieVideos
+    val movieVideos: MutableLiveData<List<Video>> by lazy {
+        movieDetailsRepository.fetchMovieVideos(movieId) as MutableLiveData
     }
 
     val networkState: LiveData<NetworkState> by lazy {
@@ -42,8 +28,7 @@ class DetailsActivityViewModel(
     fun refresh(movieId: Integer) {
         movieDetails.value = null
         movieVideos.value = null
-        movieDetails = movieDetailsRepository.fetchMovieDetails(movieId) as MutableLiveData<MovieDetails>
-        movieVideos = movieDetailsRepository.fetchMovieVideos(movieId) as MutableLiveData<List<Video>>
+        movieDetailsRepository.fetchMovieDetails(movieId)
         movieDetailsRepository.fetchMovieVideos(movieId)
     }
 }

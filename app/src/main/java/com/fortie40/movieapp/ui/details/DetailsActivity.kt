@@ -50,6 +50,7 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         activityDetailsBinding.swipeToRefresh.setOnRefreshListener {
+            MovieDetailsRepository.load = true
             @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
             viewModel.refresh(movieId as Integer)
             activityDetailsBinding.swipeToRefresh.isRefreshing = false
