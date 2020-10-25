@@ -1,14 +1,14 @@
 package com.fortie40.movieapp.ui.details
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
-import com.fortie40.movieapp.CURRENT_PAGE
-import com.fortie40.movieapp.MOVIE_ID
-import com.fortie40.movieapp.R
+import com.fortie40.movieapp.*
+import com.fortie40.movieapp.data.models.MovieDetails
+import com.fortie40.movieapp.data.models.Video
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityDetailsBinding
@@ -21,7 +21,11 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var movieDetailsRepository: MovieDetailsRepository
     private lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: DetailsActivityViewModel
     private lateinit var pager: ViewPager
+
+    private var movieDetails: MovieDetails? = MovieDetails()
+    private var videos: MutableList<Video> = arrayListOf()
 
     companion object {
         const val DEFAULT_PAGE = 0
@@ -42,11 +46,22 @@ class DetailsActivity : AppCompatActivity() {
 
         movieDetailsRepository = MovieDetailsRepository(RetrofitCallback::tMDbMovies)
         viewModelFactory = ViewModelFactory(movieDetailsRepository, movieId)
-        val viewModel: DetailsActivityViewModel by viewModels {viewModelFactory}
+       // val viewModel: DetailsActivityViewModel by viewModels {viewModelFactory}
+        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailsActivityViewModel::class.java)
+
+        savedInstanceState?.run {
+            val mD = getParcelable<MovieDetails>(MOVIE_DETAILS)
+            val v = getParcelableArrayList<Video>(VIDEO_LIST)
+            if (mD != null && v != null) {
+                MovieDetailsRepository.load = false
+                viewModel.movieDetails.value = mD
+                viewModel.movieVideos.value = v
+            }
+        }
 
         activityDetailsBinding.apply {
             this.lifecycleOwner = this@DetailsActivity
-            this.viewModel = viewModel
+            this.viewModel = this@DetailsActivity.viewModel
         }
 
         activityDetailsBinding.swipeToRefresh.setOnRefreshListener {
@@ -60,6 +75,15 @@ class DetailsActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.run {
             putInt(CURRENT_PAGE, pager.currentItem)
+        }
+
+        val mD = viewModel.movieDetails.value
+        val v = viewModel.movieVideos.value
+        if (mD != null && v !=null) {
+            outState.run {
+                putParcelable(MOVIE_DETAILS, mD)
+                putParcelableArrayList(VIDEO_LIST, ArrayList(v))
+            }
         }
         super.onSaveInstanceState(outState)
     }
