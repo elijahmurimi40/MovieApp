@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.*
+import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MainRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
@@ -17,11 +18,12 @@ import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.interfaces.IClickListener
+import com.fortie40.movieapp.interfaces.INetworkStateReceiver
 import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.list.ListActivity
 import retrofit2.Call
 
-class MainActivity : AppCompatActivity(), IClickListener {
+class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var adapter: MainAdapter
 
@@ -164,6 +166,18 @@ class MainActivity : AppCompatActivity(), IClickListener {
         super.onSaveInstanceState(outState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        HelperFunctions.registerInternetReceiver(this)
+        if (!NetworkStateReceiver.isNetworkAvailable(this))
+            networkNotAvailable()
+    }
+
+    override fun onPause() {
+        HelperFunctions.unregisterInternetReceiver(this)
+        super.onPause()
+    }
+
     override fun onMovieClick(id: Int) {
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(MOVIE_ID, id)
@@ -177,6 +191,20 @@ class MainActivity : AppCompatActivity(), IClickListener {
             getString(R.string.upcoming) -> startListActivity(UPCOMING)
             getString(R.string.top_rated) -> startListActivity(TOP_RATED)
         }
+    }
+
+    override fun networkAvailable() {
+        val textView = activityMainBinding.networkReceiver.status
+        val actionBar = activityMainBinding.actionBar
+
+        HelperFunctions.networkAvailable(textView, actionBar)
+    }
+
+    override fun networkNotAvailable() {
+        val textView = activityMainBinding.networkReceiver.status
+        val actionBar = activityMainBinding.actionBar
+
+        HelperFunctions.networkNotAvailable(textView, actionBar)
     }
 
     private fun startListActivity(value: String) {

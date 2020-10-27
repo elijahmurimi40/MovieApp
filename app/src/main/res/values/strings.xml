@@ -42,4 +42,8 @@
 
     <!-- view_all.xml -->
     <string name="view_all">View All</string>
+
+    <!-- network_receiver -->
+    <string name="no_internet">No internet connection</string>
+    <string name="back_online">Back online</string>
 </resources>
