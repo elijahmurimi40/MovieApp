@@ -22,11 +22,11 @@ class ItemViewHolder private constructor(private val binding: ViewDataBinding):
 
     private val cardView = (binding as ItemHorizontalBinding).cardItem
 
-    fun bind(movie: Movie, width: Int = 0, mIClickListener: IClickListener) {
+    fun bind(movie: Movie, width: Int = 0, iClickListener: IClickListener) {
         val itemWidth = (width / 3.33) - 9
         cardView.layoutParams.width = itemWidth.toInt()
         binding.setVariable(BR.movieItem, movie)
-        binding.setVariable(BR.mIClickListener, mIClickListener)
+        binding.setVariable(BR.iClickListener, iClickListener)
         binding.executePendingBindings()
     }
 }

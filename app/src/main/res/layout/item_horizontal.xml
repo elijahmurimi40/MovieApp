@@ -7,7 +7,7 @@
             type="com.fortie40.movieapp.data.models.Movie" />
 
         <variable
-            name="mIClickListener"
+            name="iClickListener"
             type="com.fortie40.movieapp.interfaces.IClickListener" />
     </data>
 
@@ -18,7 +18,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?selectableItemBackground"
-        android:onClick="@{() -> mIClickListener.onMovieClick(movieItem.id)}">
+        android:onClick="@{() -> iClickListener.onMovieClick(movieItem.id)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

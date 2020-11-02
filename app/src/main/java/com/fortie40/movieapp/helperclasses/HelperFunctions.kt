@@ -52,6 +52,7 @@ object HelperFunctions {
             CoroutineScope(IO).launch {
                 delay(2000)
                 withContext(Main) {
+                    tv.visibility = View.INVISIBLE
                     val lm = abl.layoutParams as ViewGroup.MarginLayoutParams
                     lm.topMargin = 0
                     abl.layoutParams = lm

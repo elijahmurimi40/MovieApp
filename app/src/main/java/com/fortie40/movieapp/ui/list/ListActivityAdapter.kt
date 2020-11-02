@@ -31,7 +31,7 @@ class ListActivityAdapter(private val context: Context)
                     StaggeredGridLayoutManager.LayoutParams
             layoutParams.isFullSpan = true
             holder.itemView.layoutParams = layoutParams
-            (holder as NetworkStateItemViewHolder).bind(networkState)
+            (holder as NetworkStateItemViewHolder).bind(networkState, context as IClickListener)
         }
     }
 

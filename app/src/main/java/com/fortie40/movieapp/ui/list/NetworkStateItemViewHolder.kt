@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fortie40.movieapp.R
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.HelperFunctions
+import com.fortie40.movieapp.interfaces.IClickListener
 
 class NetworkStateItemViewHolder private constructor(private val binding: ViewDataBinding):
     RecyclerView.ViewHolder(binding.root) {
@@ -18,9 +19,10 @@ class NetworkStateItemViewHolder private constructor(private val binding: ViewDa
         }
     }
 
-    fun bind(networkState: NetworkState?) {
+    fun bind(networkState: NetworkState?, iClickListener: IClickListener) {
         if (networkState != null) {
             binding.setVariable(BR.networkState, networkState)
+            binding.setVariable(BR.iClickListener, iClickListener)
             binding.executePendingBindings()
         }
     }

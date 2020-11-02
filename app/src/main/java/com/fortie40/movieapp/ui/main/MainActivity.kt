@@ -2,6 +2,7 @@ package com.fortie40.movieapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
@@ -21,6 +22,7 @@ import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.interfaces.INetworkStateReceiver
 import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.list.ListActivity
+import kotlinx.android.synthetic.main.network_state_item.*
 import retrofit2.Call
 
 class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver {
@@ -61,73 +63,11 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
         activityMainBinding.apply {
             this.lifecycleOwner = this@MainActivity
             this.viewModel = this@MainActivity.viewModel
+            this.iClickListener = this@MainActivity
         }
-        adapter = MainAdapter(this)
-        recyclerViewMain = activityMainBinding.recyclerViewMain
-        recyclerViewMain.adapter = adapter
-
-        val moviesObserver = {
-            moviesHasObservers = true
-            isRequesting = true
-            if (id > 1) {
-                adapter.submitList(response.toMutableList())
-            }
-            viewModel.movies(callMovieResponse).observe(this, {
-                it.map { mr ->
-                    setTitle(mr)
-                }
-
-                if (it.isNotEmpty()) {
-                    response.addAll(it)
-                    id += 1
-                }
-                adapter.submitList(response.toMutableList())
-            })
-        }
-
-        if (id > NUMBER_OF_REQUEST) {
-            adapter.submitList(response.toMutableList())
-            isRequesting = false
-        } else {
-            moviesObserver()
-        }
-
-        viewModel.networkState.observe(this, {
-            if (it == NetworkState.LOADED) {
-                if (id <= NUMBER_OF_REQUEST) {
-                    setCallMovieResponse(id)
-                    viewModel.movies(callMovieResponse)
-                } else {
-                    isRequesting = false
-                    activityMainBinding.swipeToRefresh.isRefreshing = false
-                }
-            } else if (it == NetworkState.ERROR) {
-                isRequesting = false
-                activityMainBinding.swipeToRefresh.isRefreshing = false
-            }
-
-            if (!viewModel.listIsEmpty() || id > 1)
-                adapter.setNetWorkState(it)
-        })
-
-        activityMainBinding.swipeToRefresh.setOnRefreshListener {
-            if (isRequesting) return@setOnRefreshListener
-            isRequesting = true
-            response.clear()
-            adapter.resetScrollState()
-            id = 1
-            viewModel.id = id
-            setCallMovieResponse(id)
-            if (moviesHasObservers) {
-                adapter.submitList(response.toMutableList())
-                viewModel.movies(callMovieResponse)
-                activityMainBinding.swipeToRefresh.isRefreshing = false
-            } else {
-                adapter.submitList(response.toMutableList())
-                moviesObserver()
-                activityMainBinding.swipeToRefresh.isRefreshing = false
-            }
-        }
+        init()
+        networkObserver()
+        refresh()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -193,11 +133,21 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
         }
     }
 
+    override fun onRetryClick() {
+        getMovies()
+    }
+
     override fun networkAvailable() {
         val textView = activityMainBinding.networkReceiver.status
         val actionBar = activityMainBinding.actionBar
 
         HelperFunctions.networkAvailable(textView, actionBar)
+
+        if (activityMainBinding.textView3.visibility == View.VISIBLE)
+            getMovies()
+
+        if (error_msg_item != null && error_msg_item.visibility == View.VISIBLE)
+            getMovies()
     }
 
     override fun networkNotAvailable() {
@@ -205,6 +155,89 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
         val actionBar = activityMainBinding.actionBar
 
         HelperFunctions.networkNotAvailable(textView, actionBar)
+    }
+
+    private fun init() {
+        adapter = MainAdapter(this)
+        recyclerViewMain = activityMainBinding.recyclerViewMain
+        recyclerViewMain.adapter = adapter
+
+        if (id > NUMBER_OF_REQUEST) {
+            adapter.submitList(response.toMutableList())
+            isRequesting = false
+        } else {
+            moviesObserver()
+        }
+
+        recyclerViewMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (NetworkStateReceiver.isNetworkAvailable(this@MainActivity) && error_msg_item != null && error_msg_item.visibility == View.VISIBLE)
+                        getMovies()
+                }
+            }
+        })
+    }
+
+    private fun moviesObserver() {
+        moviesHasObservers = true
+        isRequesting = true
+        if (id > 1) {
+            adapter.submitList(response.toMutableList())
+        }
+        viewModel.movies(callMovieResponse).observe(this, {
+            it.map { mr ->
+                setTitle(mr)
+            }
+
+            if (it.isNotEmpty()) {
+                response.addAll(it)
+                id += 1
+            }
+            adapter.submitList(response.toMutableList())
+        })
+    }
+
+    private fun networkObserver() {
+        viewModel.networkState.observe(this, {
+            if (it == NetworkState.LOADED) {
+                if (id <= NUMBER_OF_REQUEST) {
+                    setCallMovieResponse(id)
+                    viewModel.movies(callMovieResponse)
+                } else {
+                    isRequesting = false
+                    activityMainBinding.swipeToRefresh.isRefreshing = false
+                }
+            } else if (it == NetworkState.ERROR) {
+                isRequesting = false
+                activityMainBinding.swipeToRefresh.isRefreshing = false
+            }
+
+            if (!viewModel.listIsEmpty() || id > 1)
+                adapter.setNetWorkState(it)
+        })
+    }
+
+    private fun refresh() {
+        activityMainBinding.swipeToRefresh.setOnRefreshListener {
+            if (isRequesting) return@setOnRefreshListener
+            isRequesting = true
+            response.clear()
+            adapter.resetScrollState()
+            id = 1
+            viewModel.id = id
+            setCallMovieResponse(id)
+            if (moviesHasObservers) {
+                adapter.submitList(response.toMutableList())
+                viewModel.movies(callMovieResponse)
+                activityMainBinding.swipeToRefresh.isRefreshing = false
+            } else {
+                adapter.submitList(response.toMutableList())
+                moviesObserver()
+                activityMainBinding.swipeToRefresh.isRefreshing = false
+            }
+        }
     }
 
     private fun startListActivity(value: String) {
@@ -228,6 +261,14 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
             2 -> {mr?.title = getString(R.string.now_playing); mr?.id = id}
             3 -> {mr?.title = getString(R.string.upcoming); mr?.id = id}
             4 -> {mr?.title = getString(R.string.top_rated); mr?.id = id}
+        }
+    }
+
+    private fun getMovies() {
+        if (id < 4) {
+            setCallMovieResponse(id)
+            viewModel.id = id
+            viewModel.movies(callMovieResponse)
         }
     }
 }

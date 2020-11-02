@@ -46,7 +46,7 @@ class MainAdapter(private val context: Context):
                 }
             })
         } else {
-            (holder as NetworkStateItemViewHolder).bind(networkState)
+            (holder as NetworkStateItemViewHolder).bind(networkState, context as IClickListener)
         }
     }
 

@@ -4,4 +4,6 @@ interface IClickListener {
     fun onMovieClick(id: Int) {}
 
     fun onMoreClick(title: String) {}
+
+    fun onRetryClick() {}
 }

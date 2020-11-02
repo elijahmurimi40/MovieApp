@@ -6,6 +6,10 @@
         <variable
             name="networkState"
             type="com.fortie40.movieapp.helperclasses.NetworkState" />
+
+        <variable
+            name="iClickListener"
+            type="com.fortie40.movieapp.interfaces.IClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,18 +21,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/error_message"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textView6"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setErrorMessageItemVisibility="@{networkState}"/>
+            app:layout_constraintVertical_chainStyle="packed"
+            app:setErrorMessageItemVisibility="@{networkState}" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/background_selector_main"
+            android:text="@string/retry"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="18sp"
+            android:onClick="@{() -> iClickListener.onRetryClick()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/error_msg_item"
+            app:setRetry="@{networkState}" />
 
         <ProgressBar
             android:id="@+id/progress_bar_item"
@@ -36,15 +58,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setProgressBarItemVisibility="@{networkState}"/>
+            app:setProgressBarItemVisibility="@{networkState}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

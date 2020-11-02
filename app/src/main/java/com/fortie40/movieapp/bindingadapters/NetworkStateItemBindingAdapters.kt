@@ -29,3 +29,11 @@ fun setErrorMessageItemVisibility(tv: TextView, networkState: NetworkState) {
         else -> tv.visibility = View.GONE
     }
 }
+
+@BindingAdapter("setRetry")
+fun setRetry(tv: TextView, networkState: NetworkState) {
+    when (networkState) {
+        NetworkState.ERROR -> tv.visibility = View.VISIBLE
+        else -> tv.visibility = View.GONE
+    }
+}
