@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.fortie40.movieapp.databinding.OverviewTabBinding
+import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.details.DetailsActivityViewModel
 
 class TabOverview : Fragment() {
@@ -26,5 +27,7 @@ class TabOverview : Fragment() {
             this.lifecycleOwner = viewLifecycleOwner
             this.viewModel = this@TabOverview.viewModel
         }
+
+        (requireActivity() as DetailsActivity).enableDisableSwipeRefresh(overViewTabBinding.scrollView)
     }
 }

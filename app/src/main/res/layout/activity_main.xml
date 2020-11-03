@@ -32,7 +32,7 @@
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.fortie40.movieapp.helperclasses.OnlyVerticalSwipeRefreshLayout
             android:id="@+id/swipe_to_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -103,6 +103,6 @@
                     app:setVisibilityM="@{viewModel.networkState}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.fortie40.movieapp.helperclasses.OnlyVerticalSwipeRefreshLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

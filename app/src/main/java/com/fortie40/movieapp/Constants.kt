@@ -70,3 +70,7 @@ const val CURRENT_PAGE = "current_page"
 // saving movie details and list of videos in details activity
 const val MOVIE_DETAILS = "movie_details"
 const val VIDEO_LIST = "video_list"
+
+// saving tab trailers fragment
+const val POSITION_INDEX_TRAILERS = "position_index_trailers"
+const val OFFSET_TRAILERS = "offset_trailers"

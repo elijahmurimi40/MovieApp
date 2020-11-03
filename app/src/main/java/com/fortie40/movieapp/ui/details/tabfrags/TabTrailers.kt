@@ -2,14 +2,18 @@ package com.fortie40.movieapp.ui.details.tabfrags
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fortie40.movieapp.OFFSET_TRAILERS
+import com.fortie40.movieapp.POSITION_INDEX_TRAILERS
 import com.fortie40.movieapp.databinding.TrailersTabBinding
 import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
+import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.details.DetailsActivityViewModel
 import com.fortie40.movieapp.ui.details.adapters.TrailersTabAdapter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -26,7 +30,7 @@ class TabTrailers : Fragment() {
         lifecycle.addObserver(youTubePlayerView)
     }
 
-    private val openTrailer = {key: String ->
+    private val openTrailer = { key: String ->
         println(key)
     }
 
@@ -47,5 +51,40 @@ class TabTrailers : Fragment() {
         viewModel.movieVideos.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
+
+        savedInstanceState?.run {
+            val positionIndex = getInt(POSITION_INDEX_TRAILERS, -1)
+            val offset = getInt(OFFSET_TRAILERS)
+            if (positionIndex != -1) {
+                lm.scrollToPositionWithOffset(positionIndex, offset)
+            }
+        }
+
+        rv.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when(e.action) {
+                    MotionEvent.ACTION_DOWN -> (requireActivity() as DetailsActivity).swipeToRefresh().isEnabled = false
+                    MotionEvent.ACTION_UP -> (requireActivity() as DetailsActivity).swipeToRefresh().isEnabled = true
+                }
+                return false
+            }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) = Unit
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) = Unit
+        })
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (viewModel.movieVideos.value != null && viewModel.movieVideos.value!!.isNotEmpty()) {
+            val startView = rv.getChildAt(0)
+            val positionIndex = lm.findFirstVisibleItemPosition()
+            val offSet = if (startView == null) 0 else startView.top - rv.top
+
+            outState.run {
+                putInt(POSITION_INDEX_TRAILERS, positionIndex)
+                putInt(OFFSET_TRAILERS, offSet)
+            }
+        }
+        super.onSaveInstanceState(outState)
     }
 }

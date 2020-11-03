@@ -20,12 +20,13 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.interfaces.INetworkStateReceiver
+import com.fortie40.movieapp.interfaces.ISwipeRefreshLayout
 import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.list.ListActivity
 import kotlinx.android.synthetic.main.network_state_item.*
 import retrofit2.Call
 
-class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver {
+class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver, ISwipeRefreshLayout {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var adapter: MainAdapter
 
@@ -155,6 +156,14 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
         val actionBar = activityMainBinding.actionBar
 
         HelperFunctions.networkNotAvailable(textView, actionBar)
+    }
+
+    override fun enableSwipeRefresh() {
+        activityMainBinding.swipeToRefresh.isEnabled = true
+    }
+
+    override fun disableSwipeRefresh() {
+        activityMainBinding.swipeToRefresh.isEnabled = false
     }
 
     private fun init() {

@@ -13,6 +13,7 @@ import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
 import com.fortie40.movieapp.helperclasses.MovieResponseDiffCallback
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.interfaces.IClickListener
+import com.fortie40.movieapp.interfaces.ISwipeRefreshLayout
 import com.fortie40.movieapp.ui.list.NetworkStateItemViewHolder
 
 class MainAdapter(private val context: Context):
@@ -42,7 +43,11 @@ class MainAdapter(private val context: Context):
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                         val positionIndex = lm.findFirstCompletelyVisibleItemPosition()
                         scrollState[holder.layoutPosition] = positionIndex
+                        (context as ISwipeRefreshLayout).enableSwipeRefresh()
                     }
+
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
+                        (context as ISwipeRefreshLayout).disableSwipeRefresh()
                 }
             })
         } else {

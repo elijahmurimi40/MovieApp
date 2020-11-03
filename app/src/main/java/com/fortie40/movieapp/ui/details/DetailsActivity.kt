@@ -1,11 +1,14 @@
 package com.fortie40.movieapp.ui.details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.fortie40.movieapp.*
 import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
@@ -165,5 +168,20 @@ class DetailsActivity : AppCompatActivity(), IClickListener, INetworkStateReceiv
             val page = getInt(CURRENT_PAGE)
             pager.currentItem = page
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun enableDisableSwipeRefresh(view: View) {
+        view.setOnTouchListener { _, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> { activityDetailsBinding.swipeToRefresh.isEnabled = false; true }
+                MotionEvent.ACTION_UP -> { activityDetailsBinding.swipeToRefresh.isEnabled = true; true }
+                else -> false
+            }
+        }
+    }
+
+    fun swipeToRefresh(): SwipeRefreshLayout {
+        return activityDetailsBinding.swipeToRefresh
     }
 }
