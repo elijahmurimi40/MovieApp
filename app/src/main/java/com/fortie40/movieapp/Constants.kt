@@ -9,6 +9,9 @@ const val BASE_URL = "https://api.themoviedb.org/3/"
 // Base URL for TMDb posters
 const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
+// Base URL for YouTube thumbnails
+const val YOUTUBE_THUMBNAILS = "https://img.youtube.com/vi/"
+
 // First page for movies
 const val FIRST_PAGE = 1
 

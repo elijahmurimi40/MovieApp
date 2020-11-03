@@ -47,4 +47,7 @@
     <!-- network_receiver -->
     <string name="no_internet">No internet connection</string>
     <string name="back_online">Back online</string>
+
+    <!-- youtube_videos -->
+    <string name="youtube_thumbnail">Youtube Thumbnail</string>
 </resources>
