@@ -1,5 +1,6 @@
 package com.fortie40.movieapp.ui.details.tabfrags
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fortie40.movieapp.MOVIE_KEY
+import com.fortie40.movieapp.MOVIE_TITLE
 import com.fortie40.movieapp.OFFSET_TRAILERS
 import com.fortie40.movieapp.POSITION_INDEX_TRAILERS
 import com.fortie40.movieapp.databinding.TrailersTabBinding
@@ -16,6 +19,7 @@ import com.fortie40.movieapp.helperclasses.MovieLinearLayoutManager
 import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.details.DetailsActivityViewModel
 import com.fortie40.movieapp.ui.details.adapters.TrailersTabAdapter
+import com.fortie40.movieapp.ui.trailer.TrailerActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class TabTrailers : Fragment() {
@@ -31,7 +35,10 @@ class TabTrailers : Fragment() {
     }
 
     private val openTrailer = { key: String ->
-        println(key)
+        val intent = Intent(requireActivity(), TrailerActivity::class.java)
+        intent.putExtra(MOVIE_KEY, key)
+        intent.putExtra(MOVIE_TITLE, "pol")
+        startActivity(intent)
     }
 
     override fun onCreateView(

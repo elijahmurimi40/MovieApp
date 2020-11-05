@@ -77,3 +77,9 @@ const val VIDEO_LIST = "video_list"
 // saving tab trailers fragment
 const val POSITION_INDEX_TRAILERS = "position_index_trailers"
 const val OFFSET_TRAILERS = "offset_trailers"
+
+// intent for trailer activity
+// saving and getting from sharedPref TrailerActivity
+const val MOVIE_KEY = "movie_key"
+const val CURRENT_SECOND = "current_second"
+const val MOVIE_TITLE = "movie_title"
