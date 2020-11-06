@@ -23,10 +23,10 @@ class TrailersTabViewHolder private constructor(private val binding: ViewDataBin
     private val youTubePlayerView = (binding as YoutubeVideosBinding).youtubePlayerView
     private val youTubeOverlay = (binding as YoutubeVideosBinding).youtubeOverlay
 
-    fun bind(video: Video, youTubePlayerView: (YouTubePlayerView) -> Unit, openTrailer: (String) -> Unit) {
+    fun bind(video: Video, youTubePlayerView: (YouTubePlayerView) -> Unit, openTrailer: (String, String) -> Unit) {
         youTubePlayerView(this.youTubePlayerView)
         youTubeOverlay.setOnClickListener {
-            openTrailer(video.key)
+            openTrailer(video.key, video.name)
         }
         binding.setVariable(BR.video, video)
         binding.executePendingBindings()

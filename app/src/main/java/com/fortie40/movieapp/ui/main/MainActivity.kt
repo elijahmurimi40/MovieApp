@@ -12,6 +12,7 @@ import com.fortie40.movieapp.*
 import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MainRepository
+import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityMainBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
@@ -109,6 +110,7 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
 
     override fun onResume() {
         super.onResume()
+        MovieDetailsRepository.load = true
         HelperFunctions.registerInternetReceiver(this)
         if (!NetworkStateReceiver.isNetworkAvailable(this))
             networkNotAvailable()

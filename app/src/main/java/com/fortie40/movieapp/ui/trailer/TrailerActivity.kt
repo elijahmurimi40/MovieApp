@@ -109,6 +109,7 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
         val currentSecond = tracker.currentSecond
         if (!isBackPressed)
             sharedPref[CURRENT_SECOND] = currentSecond
+        youTubePlayerView.release()
         HelperFunctions.unregisterInternetReceiver(this)
         super.onPause()
     }

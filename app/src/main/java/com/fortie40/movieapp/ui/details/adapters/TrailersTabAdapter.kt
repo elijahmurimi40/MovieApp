@@ -8,7 +8,7 @@ import com.fortie40.movieapp.ui.details.viewholders.TrailersTabViewHolder
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class TrailersTabAdapter(private val youTubePlayerView: (YouTubePlayerView) -> Unit,
-                         private val openTrailer: (String) -> Unit)
+                         private val openTrailer: (String, String) -> Unit)
     : ListAdapter<Video, TrailersTabViewHolder>(VideoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrailersTabViewHolder {

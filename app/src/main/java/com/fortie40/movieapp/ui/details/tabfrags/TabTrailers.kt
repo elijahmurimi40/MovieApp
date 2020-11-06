@@ -34,10 +34,10 @@ class TabTrailers : Fragment() {
         lifecycle.addObserver(youTubePlayerView)
     }
 
-    private val openTrailer = { key: String ->
+    private val openTrailer = { key: String, name: String ->
         val intent = Intent(requireActivity(), TrailerActivity::class.java)
         intent.putExtra(MOVIE_KEY, key)
-        intent.putExtra(MOVIE_TITLE, "pol")
+        intent.putExtra(MOVIE_TITLE, name)
         startActivity(intent)
     }
 
