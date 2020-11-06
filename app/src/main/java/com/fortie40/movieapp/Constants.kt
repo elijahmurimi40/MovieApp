@@ -83,3 +83,6 @@ const val OFFSET_TRAILERS = "offset_trailers"
 const val MOVIE_KEY = "movie_key"
 const val CURRENT_SECOND = "current_second"
 const val MOVIE_TITLE = "movie_title"
+
+// for shared pref
+const val SHARED_PREF_FILE = "com.fortie40.movieapp.shared_pref_file"

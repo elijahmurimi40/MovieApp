@@ -9,10 +9,7 @@ import android.view.OrientationEventListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
-import com.fortie40.movieapp.CURRENT_SECOND
-import com.fortie40.movieapp.MOVIE_KEY
-import com.fortie40.movieapp.MOVIE_TITLE
-import com.fortie40.movieapp.R
+import com.fortie40.movieapp.*
 import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
 import com.fortie40.movieapp.databinding.ActivityTrailerBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
@@ -42,7 +39,7 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
         super.onCreate(savedInstanceState)
         activityTrailerBinding = DataBindingUtil.setContentView(this, R.layout.activity_trailer)
 
-        sharedPref = getPreferences(Context.MODE_PRIVATE)
+        sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE)
         movieKey = intent.getStringExtra(MOVIE_KEY)
         if (movieKey == null)
             movieKey = "LX6kVRsdXW4"

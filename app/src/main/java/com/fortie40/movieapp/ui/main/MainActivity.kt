@@ -1,6 +1,8 @@
 package com.fortie40.movieapp.ui.main
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +28,7 @@ import com.fortie40.movieapp.ui.details.DetailsActivity
 import com.fortie40.movieapp.ui.list.ListActivity
 import kotlinx.android.synthetic.main.network_state_item.*
 import retrofit2.Call
+import com.fortie40.movieapp.helperclasses.PreferenceHelper.set
 
 class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver, ISwipeRefreshLayout {
     private lateinit var activityMainBinding: ActivityMainBinding
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
     private lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var callMovieResponse: Call<MovieResponse>
+    private lateinit var sharedPref: SharedPreferences
 
     private lateinit var recyclerViewMain: RecyclerView
 
@@ -57,6 +61,7 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
         }
         setCallMovieResponse(id)
 
+        sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE)
         mainRepository = MainRepository()
         viewModelFactory = ViewModelFactory(mainRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MAIN_ACTIVITY_KEY, MainViewModel::class.java)
@@ -111,6 +116,8 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
     override fun onResume() {
         super.onResume()
         MovieDetailsRepository.load = true
+        sharedPref[CURRENT_SECOND] = 0F
+
         HelperFunctions.registerInternetReceiver(this)
         if (!NetworkStateReceiver.isNetworkAvailable(this))
             networkNotAvailable()
