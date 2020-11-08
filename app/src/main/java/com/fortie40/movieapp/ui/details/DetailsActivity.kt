@@ -113,7 +113,7 @@ class DetailsActivity : AppCompatActivity(), IClickListener, INetworkStateReceiv
             super.onBackPressed()
     }
 
-    override fun onRetryClick() {
+    override fun onRetryClick(type: Int) {
         getMovieDetails()
     }
 

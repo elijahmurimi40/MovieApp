@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
         }
     }
 
-    override fun onRetryClick() {
+    override fun onRetryClick(type: Int) {
         getMovies()
     }
 

@@ -91,7 +91,7 @@
                     android:text="@string/retry"
                     android:textColor="@android:color/holo_blue_light"
                     android:textSize="18sp"
-                    android:onClick="@{() -> IClickListener.onRetryClick()}"
+                    android:onClick="@{() -> IClickListener.onRetryClick(0)}"
                     android:background="@drawable/background_selector_main"
                     app:layout_constraintBottom_toTopOf="@+id/recycler_view_main"
                     app:layout_constraintEnd_toEndOf="parent"

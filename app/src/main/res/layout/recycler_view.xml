@@ -13,6 +13,10 @@
         <variable
             name="viewModel"
             type="com.fortie40.movieapp.ui.list.ListActivityViewModel" />
+
+        <variable
+            name="IClickListener"
+            type="com.fortie40.movieapp.interfaces.IClickListener" />
     </data>
 
     <merge>
@@ -52,18 +56,6 @@
                     app:listIsEmpty="@{viewModel.listIsEmpty()}"
                     app:setVisibility="@{viewModel.networkState}" />
 
-                <TextView
-                    android:id="@+id/text_error_popular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/connection_problem"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:listIsEmpty="@{viewModel.listIsEmpty()}"
-                    app:setVisibility="@{viewModel.networkState}" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_movie_list"
                     android:layout_width="match_parent"
@@ -77,6 +69,37 @@
                     app:setAdapter="@{viewModel.moviePagedList}"
                     app:setLayoutManager="@{setSpanCount}"
                     tools:listitem="@layout/movie_list_item" />
+
+                <TextView
+                    android:id="@+id/text_error_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connection_problem"
+                    app:layout_constraintBottom_toTopOf="@+id/textView8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:listIsEmpty="@{viewModel.listIsEmpty()}"
+                    app:setVisibility="@{viewModel.networkState}" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_selector_main"
+                    android:onClick="@{() -> IClickListener.onRetryClick(0)}"
+                    android:text="@string/retry"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_error_popular"
+                    app:listIsEmpty="@{viewModel.listIsEmpty()}"
+                    app:setVisibility="@{viewModel.networkState}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </merge>

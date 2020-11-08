@@ -5,5 +5,5 @@ interface IClickListener {
 
     fun onMoreClick(title: String) {}
 
-    fun onRetryClick() {}
+    fun onRetryClick(type: Int) {}
 }

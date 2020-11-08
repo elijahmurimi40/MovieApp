@@ -21,4 +21,8 @@ class ListActivityViewModel(private val movieListRepository: MovieListRepository
     fun listIsEmpty(): Boolean {
         return moviePagedList.value?.isEmpty() ?: true
     }
+
+    fun invalidateList() {
+        moviePagedList.value?.dataSource?.invalidate()
+    }
 }
