@@ -10,11 +10,14 @@ import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.data.models.MovieResponse
 import retrofit2.Call
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
     : PageKeyedDataSource<Int, Movie>() {
 
     private val page = FIRST_PAGE
+    private var mParams: LoadParams<Int> by Delegates.notNull()
+    private var mCallback by Delegates.notNull<LoadCallback<Int, Movie>>()
 
     private val _networkState = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
@@ -33,8 +36,11 @@ class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
-        _networkState.postValue(NetworkState.LOADING)
+        // _networkState.postValue(NetworkState.LOADING)
+        mParams = params
+        mCallback = callback
 
+        /**
         fun success(response: Response<MovieResponse>) {
             val hasMore = response.body()!!.totalPages >= params.key
             if (hasMore) {
@@ -46,6 +52,8 @@ class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
         }
 
         moviesPage(params.key).enqueueCallBack(_networkState, ::success, true)
+        */
+        loadAfterE(params, callback)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
@@ -67,5 +75,25 @@ class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
 
         moviePages(params.key).enqueueCallBack(_networkState, ::success)
         */
+    }
+
+    private fun loadAfterE(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+        _networkState.postValue(NetworkState.LOADING)
+
+        val success = { response: Response<MovieResponse> ->
+            val hasMore = response.body()!!.totalPages >= params.key
+            if (hasMore) {
+                callback.onResult(response.body()!!.movieList, params.key + 1)
+                _networkState.postValue(NetworkState.LOADED)
+            } else {
+                _networkState.postValue(NetworkState.END_OF_LIST)
+            }
+        }
+
+        moviesPage(params.key).enqueueCallBack(_networkState, success, true)
+    }
+
+    fun retry() {
+        loadAfterE(mParams, mCallback)
     }
 }

@@ -25,4 +25,8 @@ class ListActivityViewModel(private val movieListRepository: MovieListRepository
     fun invalidateList() {
         moviePagedList.value?.dataSource?.invalidate()
     }
+
+    fun retry() {
+        movieListRepository.retry()
+    }
 }

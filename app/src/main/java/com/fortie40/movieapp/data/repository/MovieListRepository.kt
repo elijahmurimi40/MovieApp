@@ -29,4 +29,8 @@ class MovieListRepository(moviesPage: (Int) -> Call<MovieResponse>) {
             movieListDataSourceFactory.movieLiveListDataSource, MovieListDataSource::networkState
         )
     }
+
+    fun retry() {
+        movieListDataSourceFactory.retry()
+    }
 }

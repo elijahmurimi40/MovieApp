@@ -18,4 +18,8 @@ class MovieListDataSourceFactory(private val moviesPage: (Int) -> Call<MovieResp
         _movieLiveListDataSource.postValue(movieDataSource)
         return movieDataSource
     }
+
+    fun retry() {
+        movieLiveListDataSource.value?.retry()
+    }
 }

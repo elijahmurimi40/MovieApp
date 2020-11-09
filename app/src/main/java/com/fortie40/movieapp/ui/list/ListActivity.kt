@@ -12,12 +12,12 @@ import com.fortie40.movieapp.*
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.data.repository.MovieListRepository
-import com.fortie40.movieapp.helperclasses.ViewModelFactory
-import com.fortie40.movieapp.databinding.ActivityListBinding
-import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
+import com.fortie40.movieapp.databinding.ActivityListBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
 import com.fortie40.movieapp.helperclasses.PreferenceHelper.set
+import com.fortie40.movieapp.helperclasses.ViewModelFactory
+import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.ui.details.DetailsActivity
 import retrofit2.Call
 
@@ -84,10 +84,7 @@ class ListActivity : AppCompatActivity(), IClickListener {
             viewModel.invalidateList()
         }
         else {
-            viewModel.invalidateList()
-            println("pol")
-            val p = viewModel.moviePagedList.value?.lastKey
-            println(p)
+            viewModel.retry()
         }
     }
 
