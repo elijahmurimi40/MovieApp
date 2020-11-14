@@ -4,24 +4,28 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.fortie40.movieapp.*
+import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
 import com.fortie40.movieapp.data.repository.MovieListRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityListBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
+import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.PreferenceHelper.set
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.interfaces.IClickListener
+import com.fortie40.movieapp.interfaces.INetworkStateReceiver
 import com.fortie40.movieapp.ui.details.DetailsActivity
 import retrofit2.Call
 
-class ListActivity : AppCompatActivity(), IClickListener {
+class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver {
     private lateinit var activityListBinding: ActivityListBinding
 
     private lateinit var movieListRepository: MovieListRepository
@@ -53,6 +57,8 @@ class ListActivity : AppCompatActivity(), IClickListener {
         // Picasso.get().isLoggingEnabled = true
         // Picasso.get().setIndicatorsEnabled(true)
         activityListBinding.recyclerView.swipeToRefresh.setOnRefreshListener {
+            val adapter = activityListBinding.recyclerView.rvMovieList.adapter as ListActivityAdapter
+            adapter.setNetWorkState(NetworkState.LOADED)
             viewModel.invalidateList()
             activityListBinding.recyclerView.swipeToRefresh.isRefreshing = false
         }
@@ -66,6 +72,10 @@ class ListActivity : AppCompatActivity(), IClickListener {
         super.onResume()
         MovieDetailsRepository.load = true
         sharedPref[CURRENT_SECOND] = 0F
+
+        HelperFunctions.registerInternetReceiver(this)
+        if (!NetworkStateReceiver.isNetworkAvailable(this))
+            networkNotAvailable()
     }
 
     override fun onPause() {
@@ -86,6 +96,23 @@ class ListActivity : AppCompatActivity(), IClickListener {
         else {
             viewModel.retry()
         }
+    }
+
+    override fun networkAvailable() {
+        val textView = activityListBinding.recyclerView.networkReceiver.status
+        val appBarLayout = activityListBinding.recyclerView.appBarLayout
+
+        HelperFunctions.networkAvailable(textView, appBarLayout)
+
+        if (activityListBinding.recyclerView.textErrorPopular.visibility == View.VISIBLE)
+            viewModel.invalidateList()
+    }
+
+    override fun networkNotAvailable() {
+        val textView = activityListBinding.recyclerView.networkReceiver.status
+        val appBarLayout = activityListBinding.recyclerView.appBarLayout
+
+        HelperFunctions.networkNotAvailable(textView, appBarLayout)
     }
 
     private fun setToolbarTitle() {
