@@ -3,9 +3,10 @@ package com.fortie40.movieapp.ui.trailer
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Bundle
+import android.provider.Settings
 import android.view.OrientationEventListener
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
@@ -13,13 +14,17 @@ import com.fortie40.movieapp.*
 import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
 import com.fortie40.movieapp.databinding.ActivityTrailerBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
+import com.fortie40.movieapp.helperclasses.PreferenceHelper.get
+import com.fortie40.movieapp.helperclasses.PreferenceHelper.set
 import com.fortie40.movieapp.interfaces.INetworkStateReceiver
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.fortie40.movieapp.helperclasses.PreferenceHelper.set
-import com.fortie40.movieapp.helperclasses.PreferenceHelper.get
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
 
 class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
     private lateinit var activityTrailerBinding: ActivityTrailerBinding
@@ -27,8 +32,9 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
     private lateinit var orientationEventListener: OrientationEventListener
     private lateinit var sharedPref: SharedPreferences
     private lateinit var tracker: YouTubePlayerTracker
+    private lateinit var youTubePlayerListener: AbstractYouTubePlayerListener
+    private lateinit var playerUiController: PlayerUiController
 
-    private var savedOrientation: Int? = null
     private var currentOrientation = 0
     private var movieKey: String? = null
     private var isBackPressed = false
@@ -52,6 +58,7 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
 
         tracker = YouTubePlayerTracker()
         youTubePlayerView = activityTrailerBinding.trailer
+        playerUiController = youTubePlayerView.getPlayerUiController()
         activityTrailerBinding.backButton.setOnClickListener {
             onBackPressed()
         }
@@ -62,25 +69,41 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
 
         orientationEventListener = object : OrientationEventListener(this) {
             override fun onOrientationChanged(orientation: Int) {
-                val isPortrait = isPortrait(orientation)
-                if (savedOrientation == null)
-                    return
-
-                if (!isPortrait && savedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                    savedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                if (autoRotateIsOn()) {
                     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
-                } else if (isPortrait && savedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    savedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+                    enterExitFullScreen()
                 }
             }
         }
         orientationEventListener.enable()
-    }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        enterExitFullScreen()
+        val movieKeyS = sharedPref[MOVIE_KEY, ""]
+        val startSeconds = sharedPref[CURRENT_SECOND, 0F]
+        youTubePlayerListener = object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                super.onReady(youTubePlayer)
+                youTubePlayer.addListener(tracker)
+                // youTubePlayer.loadVideo(movieKeyS!!, startSeconds!!)
+                youTubePlayer.loadOrCueVideo(lifecycle, movieKeyS!!, startSeconds!!)
+                sharedPref[CURRENT_SECOND] = 0F
+            }
+
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState,
+            ) {
+                super.onStateChange(youTubePlayer, state)
+                if (state == PlayerConstants.PlayerState.BUFFERING || state == PlayerConstants.PlayerState.UNSTARTED) {
+                    activityTrailerBinding.progressBar3.visibility = View.VISIBLE
+                    playerUiController.showBufferingProgress(false)
+                } else {
+                    activityTrailerBinding.progressBar3.visibility = View.GONE
+                    playerUiController.showBufferingProgress(true)
+                }
+            }
+        }
+
+        youTubePlayerView.addYouTubePlayerListener(youTubePlayerListener)
     }
 
     override fun onResume() {
@@ -90,14 +113,9 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
         if (!NetworkStateReceiver.isNetworkAvailable(this))
             networkNotAvailable()
 
-        val movieKeyS = sharedPref[MOVIE_KEY, ""]
-        val startSeconds = sharedPref[CURRENT_SECOND, 0F]
-        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {
-                super.onReady(youTubePlayer)
-                youTubePlayer.addListener(tracker)
-                youTubePlayer.loadVideo(movieKeyS!!, startSeconds!!)
-                sharedPref[CURRENT_SECOND] = 0F
+        youTubePlayerView.getYouTubePlayerWhenReady(object : YouTubePlayerCallback {
+            override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.play()
             }
         })
     }
@@ -106,7 +124,6 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
         val currentSecond = tracker.currentSecond
         if (!isBackPressed)
             sharedPref[CURRENT_SECOND] = currentSecond
-        youTubePlayerView.release()
         HelperFunctions.unregisterInternetReceiver(this)
         super.onPause()
     }
@@ -136,31 +153,34 @@ class TrailerActivity : AppCompatActivity(), INetworkStateReceiver {
     }
 
     private fun enterExitFullScreen() {
-        currentOrientation = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        // currentOrientation = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        currentOrientation = if (resources.configuration.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
             youTubePlayerView.enterFullScreen()
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         } else {
             youTubePlayerView.exitFullScreen()
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        savedOrientation = currentOrientation
     }
 
     private fun initYoutubePlayerView() {
-        val playerUiController = youTubePlayerView.getPlayerUiController()
         playerUiController.setVideoTitle(movieTitle!!)
         playerUiController.setFullScreenButtonClickListener {
-            requestedOrientation = if (currentOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            if (autoRotateIsOn())
+                return@setFullScreenButtonClickListener
+            requestedOrientation = if (currentOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+                youTubePlayerView.exitFullScreen()
+                currentOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            else
-                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            } else {
+                youTubePlayerView.enterFullScreen()
+                currentOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            }
         }
     }
 
-    private fun isPortrait(orientation: Int): Boolean {
-        if (orientation < 45 || orientation > 315)
-            return true
-
-        return false
+    private fun autoRotateIsOn(): Boolean {
+        return Settings.System.getInt(contentResolver, Settings.System.ACCELEROMETER_ROTATION, 0) == 1
     }
 }
