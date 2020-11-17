@@ -23,12 +23,17 @@ class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
     val networkState: LiveData<NetworkState>
         get() = _networkState
 
+    private val _movieResponse = MutableLiveData<MovieResponse>()
+    val movieResponse: LiveData<MovieResponse>
+        get() = _movieResponse
+
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>
     ) {
         _networkState.postValue(NetworkState.LOADING)
 
         fun success(response: Response<MovieResponse>) {
             callback.onResult(response.body()!!.movieList, null, page + 1)
+            _movieResponse.postValue(response.body())
             _networkState.postValue(NetworkState.LOADED)
         }
 
@@ -84,6 +89,7 @@ class MovieListDataSource(private val moviesPage: (Int) -> Call<MovieResponse>)
             val hasMore = response.body()!!.totalPages >= params.key
             if (hasMore) {
                 callback.onResult(response.body()!!.movieList, params.key + 1)
+                _movieResponse.postValue(response.body())
                 _networkState.postValue(NetworkState.LOADED)
             } else {
                 _networkState.postValue(NetworkState.END_OF_LIST)
