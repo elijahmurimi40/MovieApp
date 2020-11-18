@@ -50,7 +50,7 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
         setToolbarTitle()
 
         sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE)
-        movieListRepository = MovieListRepository(moviesPage, application)
+        movieListRepository = MovieListRepository(moviesPage, this)
         viewModelFactory = ViewModelFactory(movieListRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ListActivityViewModel::class.java)
 
