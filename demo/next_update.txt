@@ -1,0 +1,5 @@
+----- editors choice movies
+----- save favourite movies
+----- auto refresh when user is scrooling and there is connection
+----- save schema for room database
+----- auto backup in manifest
