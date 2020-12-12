@@ -15,13 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.main.MainActivity" android:theme="@style/AppTheme.Launcher">
-        </activity>
-        <activity android:name=".ui.list.ListActivity" android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.list.ListActivity" android:theme="@style/AppTheme" />
         <activity android:name=".ui.details.DetailsActivity" android:theme="@style/AppTheme" />
         <activity android:name=".ui.trailer.TrailerActivity" android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout" />

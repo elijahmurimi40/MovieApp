@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
         init()
         networkObserver()
         refresh()
+        // CheckForUpdateLifeCycleObserver(this, lifecycle)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

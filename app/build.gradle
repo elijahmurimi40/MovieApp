@@ -116,4 +116,12 @@ dependencies {
 
     // multi dex
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // work manager
+    implementation "androidx.work:work-runtime-ktx:2.4.0"
+
+    // ProcessLifecycleOwner
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    // annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.2.0"
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import com.fortie40.movieapp.API_KEY
 import com.fortie40.movieapp.BASE_URL
+import com.fortie40.movieapp.LATEST_APP_VERSION
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,17 +52,30 @@ object RetrofitBuilder {
             .addInterceptor(logger())
     }
 
-    private fun builder(): Retrofit.Builder {
+    private fun tMDBbuilder(): Retrofit.Builder {
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttp().build())
     }
 
-    private fun retrofit(): Retrofit {
-        return builder().build()
+    private fun latestVersionBuilder(): Retrofit.Builder {
+        return Retrofit.Builder().baseUrl("https://movieappversioncodeandnamephp.herokuapp.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(logger())
+                    .build()
+            )
     }
 
-    fun <S> buildService(serviceType: Class<S>): S {
-        return retrofit().create(serviceType)
+    private fun retrofit(classType: String = ""): Retrofit {
+        return when(classType) {
+            LATEST_APP_VERSION -> latestVersionBuilder().build()
+            else -> tMDBbuilder().build()
+        }
+    }
+
+    fun <S> buildService(serviceType: Class<S>, classType: String = ""): S {
+        return retrofit(classType).create(serviceType)
     }
 }

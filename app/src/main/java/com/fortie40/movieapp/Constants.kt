@@ -86,3 +86,15 @@ const val MOVIE_TITLE = "movie_title"
 
 // for shared pref
 const val SHARED_PREF_FILE = "com.fortie40.movieapp.shared_pref_file"
+
+// const for retrofit builder checking latest app version
+const val LATEST_APP_VERSION = "latest_app_version"
+
+// for CheckLatestAppVersion
+const val CHECK_FOR_LATEST = "check_for_latest"
+
+// notify user work manager
+const val NOTIFY_USER_FOR_UPDATE = "notify_user_for_update"
+
+// saving time to notify user for update
+const val NOTIFY_USER_FOR_UPDATE_TIME = "notify_user_for_update_time"

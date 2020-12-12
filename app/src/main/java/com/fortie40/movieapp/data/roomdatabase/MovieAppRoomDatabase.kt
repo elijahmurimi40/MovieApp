@@ -6,12 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.fortie40.movieapp.data.models.MovieResponse
+import com.fortie40.movieapp.data.models.Response
 import com.fortie40.movieapp.helperclasses.MovieListTypeConverter
 
-@Database(entities = [(MovieResponse::class)], version = 1, exportSchema = false)
+@Database(entities = [(MovieResponse::class), (Response::class)], version = 1, exportSchema = false)
 @TypeConverters(MovieListTypeConverter::class)
 abstract class MovieAppRoomDatabase : RoomDatabase() {
     abstract fun movieAppDao(): MovieAppDao
+    abstract fun checkLatestDao(): CheckLatestDao
 
     companion object {
         @Volatile

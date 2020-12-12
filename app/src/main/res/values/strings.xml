@@ -36,6 +36,8 @@
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
     <string name="top_rated">Top Rated</string>
+    <string name="new_app_version">A New Version Is Available</string>
+    <string name="dismiss">Dismiss</string>
 
     <!-- activity_main.xml -->
     <string name="title">Title</string>
