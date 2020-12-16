@@ -11,6 +11,6 @@ interface MovieAppDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMovieResponse(movieResponse: MovieResponse)
 
-    @Query("SELECT * FROM movie_response WHERE page = :page")
-    suspend fun getMovieResponseByPage(page: Int): MovieResponse
+    @Query("SELECT * FROM movie_response")
+    suspend fun getMovieResponseByPage(): MovieResponse
 }

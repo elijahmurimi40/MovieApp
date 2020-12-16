@@ -39,21 +39,7 @@ class MovieListRepository(moviesPage: (Int) -> Call<MovieResponse>, context: Con
         )
     }
 
-    fun getMovieResponse(): LiveData<MovieResponse> {
-        return Transformations.switchMap(
-            movieListDataSourceFactory.movieLiveListDataSource, MovieListDataSource::movieResponse
-        )
-    }
-
     fun retry() {
         movieListDataSourceFactory.retry()
-    }
-
-    suspend fun saveMovieResponse(movieResponse: MovieResponse) {
-        dao.saveMovieResponse(movieResponse)
-    }
-
-    suspend fun getMovieResponseByPage(page: Int): MovieResponse {
-        return dao.getMovieResponseByPage(page)
     }
 }

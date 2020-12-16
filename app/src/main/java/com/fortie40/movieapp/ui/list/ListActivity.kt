@@ -23,14 +23,9 @@ import com.fortie40.movieapp.helperclasses.ViewModelFactory
 import com.fortie40.movieapp.interfaces.IClickListener
 import com.fortie40.movieapp.interfaces.INetworkStateReceiver
 import com.fortie40.movieapp.ui.details.DetailsActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 
-class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver {
+class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver{
     private lateinit var activityListBinding: ActivityListBinding
 
     private lateinit var movieListRepository: MovieListRepository
@@ -39,8 +34,6 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
     private lateinit var title: String
     private lateinit var moviesPage: (Int) -> Call<MovieResponse>
     private lateinit var sharedPref: SharedPreferences
-
-    private var page = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -73,9 +66,6 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
         activityListBinding.recyclerView.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-
-        saveMovieResponse()
-        getMovieResponseByPage()
     }
 
     override fun onResume() {
@@ -131,27 +121,6 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver 
             NOW_PLAYING -> { title = getString(R.string.now_playing); moviesPage = RetrofitCallback::tMDbNowPlayingMoviesPage }
             UPCOMING -> { title = getString(R.string.upcoming); moviesPage = RetrofitCallback::tMDbUpcomingMoviesPage }
             TOP_RATED -> { title = getString(R.string.top_rated); moviesPage = RetrofitCallback::tMDbTopRatedMoviesPage }
-        }
-    }
-
-    private fun saveMovieResponse() {
-        viewModel.movieResponse.observe(this, {
-            CoroutineScope(IO).launch {
-                viewModel.saveMovieResponse(it)
-                withContext(Main) {
-                    page = it.page
-                }
-            }
-        })
-    }
-
-    private fun getMovieResponseByPage() {
-        var movieResponse: MovieResponse
-        CoroutineScope(IO).launch {
-            movieResponse = viewModel.getMovieResponseByPage(1)
-            withContext(Main) {
-                println(movieResponse.movieList.size)
-            }
         }
     }
 }
