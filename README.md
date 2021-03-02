@@ -7,6 +7,11 @@ Movies and previews
 
     This product uses the TMDb API but is not endorsed or certified by TMDb.
     
+### Demo
+<img 
+	src="demo/demo1.gif" 
+	alt="Demo" height="500px" hspace="20" />
+    
 <img 
 	src="demo/tmdb.svg" 
 	alt="TMDb" width="300" height="300" />
