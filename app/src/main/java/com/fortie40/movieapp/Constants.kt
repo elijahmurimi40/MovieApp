@@ -98,3 +98,9 @@ const val NOTIFY_USER_FOR_UPDATE = "notify_user_for_update"
 
 // saving time to notify user for update
 const val NOTIFY_USER_FOR_UPDATE_TIME = "notify_user_for_update_time"
+
+// saving the last page in ListActivity
+const val LAST_PAGE = "last_page"
+
+// view model key List activity
+const val LIST_ACTIVITY_KEY = "list_activity_key"

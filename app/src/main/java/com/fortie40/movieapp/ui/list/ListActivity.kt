@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Parcelable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -13,10 +15,12 @@ import com.fortie40.movieapp.*
 import com.fortie40.movieapp.broadcastreceivers.NetworkStateReceiver
 import com.fortie40.movieapp.data.models.MovieResponse
 import com.fortie40.movieapp.data.repository.MovieDetailsRepository
+import com.fortie40.movieapp.data.repository.MovieListDataSource
 import com.fortie40.movieapp.data.repository.MovieListRepository
 import com.fortie40.movieapp.data.retrofitservices.RetrofitCallback
 import com.fortie40.movieapp.databinding.ActivityListBinding
 import com.fortie40.movieapp.helperclasses.HelperFunctions
+import com.fortie40.movieapp.helperclasses.MovieListStaggeredGridLayoutManager
 import com.fortie40.movieapp.helperclasses.NetworkState
 import com.fortie40.movieapp.helperclasses.PreferenceHelper.set
 import com.fortie40.movieapp.helperclasses.ViewModelFactory
@@ -35,6 +39,8 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver{
     private lateinit var moviesPage: (Int) -> Call<MovieResponse>
     private lateinit var sharedPref: SharedPreferences
 
+    private var isOnCreateCalled = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
@@ -42,10 +48,14 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver{
 
         setToolbarTitle()
 
+        savedInstanceState?.run {
+            MovieListDataSource.lastPage = getInt(LAST_PAGE, 0)
+        }
+
         sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE)
         movieListRepository = MovieListRepository(moviesPage, this)
         viewModelFactory = ViewModelFactory(movieListRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ListActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LIST_ACTIVITY_KEY, ListActivityViewModel::class.java)
 
         viewModel.title = title
         activityListBinding.apply {
@@ -66,6 +76,39 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver{
         activityListBinding.recyclerView.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+
+        isOnCreateCalled = true
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!isOnCreateCalled) recreate()
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        activityListBinding.recyclerView.progressBarRestore.visibility = View.VISIBLE
+        savedInstanceState.run {
+            val offSet = getParcelable<Parcelable>("P")
+
+            Handler().postDelayed({
+                (activityListBinding.recyclerView.rvMovieList.layoutManager as MovieListStaggeredGridLayoutManager)
+                    .onRestoreInstanceState(offSet)
+                activityListBinding.recyclerView.progressBarRestore.visibility = View.GONE
+            }, 300)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val rv = activityListBinding.recyclerView.rvMovieList
+        val layoutManager =
+            rv.layoutManager as MovieListStaggeredGridLayoutManager
+        val p = layoutManager.onSaveInstanceState()
+        outState.run {
+            putInt(LAST_PAGE, MovieListDataSource.lastPage)
+            putParcelable("P", p)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onResume() {
@@ -81,6 +124,14 @@ class ListActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver{
     override fun onPause() {
         HelperFunctions.unregisterInternetReceiver(this)
         super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (!isChangingConfigurations) {
+            isOnCreateCalled = false
+            HelperFunctions.clearViewModel(this, LIST_ACTIVITY_KEY)
+        }
     }
 
     override fun onMovieClick(id: Int) {

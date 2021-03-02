@@ -12,5 +12,5 @@ interface MovieAppDao {
     suspend fun saveMovieResponse(movieResponse: MovieResponse)
 
     @Query("SELECT * FROM movie_response")
-    suspend fun getMovieResponseByPage(): MovieResponse
+    suspend fun getMovieResponse(): MovieResponse
 }

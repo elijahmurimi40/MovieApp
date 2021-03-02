@@ -5,16 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.fortie40.movieapp.data.models.Movie
 import com.fortie40.movieapp.data.models.MovieResponse
+import com.fortie40.movieapp.data.roomdatabase.MovieAppDao
 import retrofit2.Call
 
-class MovieListDataSourceFactory(private val moviesPage: (Int) -> Call<MovieResponse>)
-    : DataSource.Factory<Int, Movie>() {
+class MovieListDataSourceFactory(
+    private val moviesPage: (Int) -> Call<MovieResponse>,
+    private val dao: MovieAppDao
+) : DataSource.Factory<Int, Movie>() {
 
     private val _movieLiveListDataSource = MutableLiveData<MovieListDataSource>()
     val movieLiveListDataSource: LiveData<MovieListDataSource> = _movieLiveListDataSource
 
     override fun create(): DataSource<Int, Movie> {
-        val movieDataSource = MovieListDataSource(moviesPage)
+        val movieDataSource = MovieListDataSource(moviesPage, dao)
         _movieLiveListDataSource.postValue(movieDataSource)
         return movieDataSource
     }

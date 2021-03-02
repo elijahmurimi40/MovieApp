@@ -14,13 +14,15 @@ import com.fortie40.movieapp.helperclasses.NetworkState
 import retrofit2.Call
 
 class MovieListRepository(moviesPage: (Int) -> Call<MovieResponse>, context: Context) {
-    private val movieListDataSourceFactory: MovieListDataSourceFactory = MovieListDataSourceFactory(moviesPage)
     private lateinit var moviePagedList: LiveData<PagedList<Movie>>
+
     private var dao: MovieAppDao
+    private var movieListDataSourceFactory: MovieListDataSourceFactory
 
     init {
         val database = MovieAppRoomDatabase(context)
         dao = database.movieAppDao()
+        movieListDataSourceFactory = MovieListDataSourceFactory(moviesPage, dao)
     }
 
     fun fetchLiveMoviePagedList(): LiveData<PagedList<Movie>> {
