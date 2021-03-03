@@ -55,9 +55,12 @@ class MainActivity : AppCompatActivity(), IClickListener, INetworkStateReceiver,
 
         savedInstanceState?.run {
             id = getInt(ID_TITLE, 0) + 1
-            val mr = getParcelableArrayList<MovieResponse>(RESPONSE_ARRAY) as List<MovieResponse>
-            response.clear()
-            response.addAll(mr)
+            val mr = getParcelableArrayList<MovieResponse>(RESPONSE_ARRAY)
+            if (mr != null) {
+                response.clear()
+                // response.addAll(mr as List<MovieResponse>)
+                response.addAll(mr)
+            }
         }
         setCallMovieResponse(id)
 

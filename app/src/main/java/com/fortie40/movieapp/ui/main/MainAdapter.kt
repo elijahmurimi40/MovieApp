@@ -88,10 +88,13 @@ class MainAdapter(private val context: Context):
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        @Suppress("UNCHECKED_CAST")
-        val p = savedInstanceState.getSerializable(SCROLL_POSITION_HORIZONTAL) as HashMap<Int, Int>
-        scrollState = p
+        // @Suppress("UNCHECKED_CAST")
+        val p = savedInstanceState.getSerializable(SCROLL_POSITION_HORIZONTAL)
+        if (p != null) {
+            scrollState = p as HashMap<Int, Int>
+        }
     }
 
     fun onSaveInstanceState(outState: Bundle) {
